@@ -8,7 +8,11 @@ const morgan = require('morgan'); // Import morgan
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost', // Adjust according to your frontend URL
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(morgan('dev')); // Log requests to the console in 'dev' format
 
