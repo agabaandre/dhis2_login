@@ -21,7 +21,7 @@
 
         <div v-if="dashboardLoaded">
             <h1>DHIS2 Dashboard</h1>
-            <iframe :src="dashboardUrl" width="100%" height="600px"></iframe>
+            <iframe :src="dashboardUrl" width="100%" height="600px" embed="true"></iframe>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
                             this.loading = false;
                         } else {
                             this.loading = false;
-                            this.errorMessage = 'Failed to load dashboard';
+                            this.errorMessage = 'Failed to load dashboard: ' + (response.data.message || 'No message');
                         }
                     } catch (error) {
                         this.loading = false;

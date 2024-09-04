@@ -3,19 +3,18 @@ const express = require('express');
 const axios = require('axios');
 const qs = require('querystring');
 const cors = require('cors');
-const morgan = require('morgan'); // For logging requests
+const morgan = require('morgan'); // Import morgan
 
 const app = express();
 const port = 3000;
 
-// CORS configuration: adjust "origin" to match your client's URL
 app.use(cors({
-    origin: 'http://localhost:8080', // Change this to your client's actual URL
-    credentials: true // This is crucial for cookies to be sent and received
+    origin: process.env.DHIS2_LOGIN_URL, // Adjust according to your frontend URL
+    credentials: true
 }));
 
 app.use(express.json());
-app.use(morgan('dev')); // Log requests to the console
+app.use(morgan('dev')); // Log requests to the console in 'dev' format
 
 // Login route
 app.post('/login', async (req, res) => {
@@ -25,25 +24,23 @@ app.post('/login', async (req, res) => {
             j_password: process.env.DHIS2_PASSWORD
         };
 
-        // Make a POST request to the DHIS2 login action
-        const loginResponse = await axios.post(`${process.env.DHIS2_LOGIN_URL}dhis-web-commons/security/login.action`, qs.stringify(credentials), {
+        const loginResponse = await axios.post(process.env.DHIS2_LOGIN_URL + 'dhis-web-commons/security/login.action', qs.stringify(credentials), {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             withCredentials: true,
-            maxRedirects: 0, // Do not follow redirects automatically
+            maxRedirects: 0, // Do not follow redirects
             validateStatus: status => status >= 200 && status < 400 // Accept all 2xx and 3xx statuses
         });
 
         console.log('Login response:', loginResponse.status, loginResponse.headers);
 
-        // Check if the session cookie was set by DHIS2
         if (loginResponse.headers['set-cookie']) {
-            // Forward the Set-Cookie header to the client
+            const dashboardUrl = process.env.DHIS2_DASHBOARD_URL;
             res.setHeader('Set-Cookie', loginResponse.headers['set-cookie']);
             res.json({
                 message: 'Login successful',
-                dashboardUrl: process.env.DHIS2_DASHBOARD_URL
+                dashboardUrl: dashboardUrl
             });
         } else {
             res.status(401).json({ message: 'Login failed' });
@@ -53,6 +50,7 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 });
+
 
 // Start the server
 app.listen(port, () => {
