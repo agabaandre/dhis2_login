@@ -1,0 +1,18 @@
+{
+    "name": "dhis2-puppeteer-server",
+    "version": "1.0.0",
+    "description": "A Node.js server using Puppeteer to automate login to DHIS2 and serve the dashboard",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.1",
+        "puppeteer": "^21.0.0"
+    },
+    "author": "",
+    "license": "ISC"
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHIS2 Auto Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-if="loading">
+            <h1>Logging in...</h1>
+        </div>
+
+        <div v-if="errorMessage">
+            <p style="color: red;">{{ errorMessage }}</p>
+        </div>
+
+        <div v-if="dashboardLoaded">
+            <h1>DHIS2 Dashboard</h1>
+            <iframe :src="dashboardUrl" width="100%" height="600px"></iframe>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                loading: true,
+                errorMessage: '',
+                dashboardUrl: '',
+                dashboardLoaded: false
+            },
+            mounted() {
+                this.autoLogin();
+            },
+            methods: {
+                async autoLogin() {
+                    try {
+                        // Automatically trigger the login route
+                        const response = await axios.post('http://localhost:3000/login', {}, {
+                            withCredentials: true // Include this to handle cookies
+                        });
+
+                        if (response.status === 200 && response.data.message === 'Login successful') {
+                            this.dashboardUrl = response.data.dashboardUrl; // Get the dashboard URL from the response
+                            this.dashboardLoaded = true;
+                            this.loading = false;
+                        } else {
+                            this.loading = false;
+                            this.errorMessage = 'Failed to load dashboard';
+                        }
+                    } catch (error) {
+                        this.loading = false;
+                        this.errorMessage = 'Login failed: ' + (error.response?.data?.message || 'Unknown error');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
