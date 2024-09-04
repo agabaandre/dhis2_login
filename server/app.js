@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(morgan('dev')); // Log requests to the console in 'dev' format
 
 // Login route
-app.post('/login', async (req, res) => {
+app.post('/node_app/login', async (req, res) => {
     try {
         const credentials = {
             j_username: process.env.DHIS2_USERNAME,
