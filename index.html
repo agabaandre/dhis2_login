@@ -21,7 +21,7 @@
 
         <div v-if="dashboardLoaded">
             <h1>DHIS2 Dashboard</h1>
-            <iframe :src="dashboardUrl" width="100%" height="600px" embed="true"></iframe>
+            <iframe :src="dashboardUrl" width="100%" height="600px" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
 
@@ -40,13 +40,12 @@
             methods: {
                 async autoLogin() {
                     try {
-                        // Automatically trigger the login route
-                        const response = await axios.post('http://localhost:3000/login', {}, {
-                            withCredentials: true // Include this to handle cookies
+                        const response = await axios.post('http://localhost:3000/node_app/login', {}, {
+                            withCredentials: true // Essential for including cookies in the request
                         });
 
                         if (response.status === 200 && response.data.message === 'Login successful') {
-                            this.dashboardUrl = response.data.dashboardUrl; // Get the dashboard URL from the response
+                            this.dashboardUrl = response.data.dashboardUrl;
                             this.dashboardLoaded = true;
                             this.loading = false;
                         } else {
