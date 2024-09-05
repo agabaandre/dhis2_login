@@ -62,7 +62,7 @@ app.post('/node_app/login', async (req, res) => {
         const dashboardUrl = page.url();
 
         // Close Puppeteer browser
-        //await browser.close();
+        await browser.close();
 
         // Send the dashboard URL to the client
         res.send({ message: 'Login successful', dashboardUrl });
