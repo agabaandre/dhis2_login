@@ -40,109 +40,82 @@ app.post('/node_app/login', async (req, res) => {
 
             // Try to navigate to the dashboard URL
             const response = await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
-
-            if (!response) {
+            const urlAfterNavigation = page.url();
+            if (urlAfterNavigation.includes('login.action')) {
                 console.log('Failed to navigate to the dashboard URL.');
-                await browser.close(); // Close browser to retry login
+               // Close browser to retry login
             } else {
                 const urlAfterNavigation = page.url();
                 const statusCode = response.status();
 
                 console.log(`Navigated to URL: ${urlAfterNavigation}, Status Code: ${statusCode}`);
-
-                // Check if we were redirected back to the login page
-                if (urlAfterNavigation.includes('login.action')) {
-                    console.log('Session is invalid, redirected to login page. Proceeding with login.');
-                    await browser.close(); // Close browser to retry login
-                } else {
-                    // If on the dashboard, the session is valid
-                    console.log('Session is valid, skipping login.');
-
-                    // Close Puppeteer browser
-                    await browser.close();
-
                     // Send the dashboard URL to the client
-                    return res.send({ message: 'Already authenticated', dashboardUrl: urlAfterNavigation });
+                await browser.close();
+                return res.send({ message: 'Already authenticated', dashboardUrl: urlAfterNavigation });
+                
+                
                 }
             }
-        }
+            else{
 
         console.log('No valid session found or session is invalid, proceeding with login.');
 
         // Launch Puppeteer browser in headless mode for login
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-        });
-
-        const page = await browser.newPage();
-        console.log('Browser launched for login.');
-
-        // Navigate to the DHIS2 login page
-        const responseLoginPage = await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
-
-        // Check if response is null before accessing status
-        if (!responseLoginPage) {
-            console.error('Failed to load the login page.');
-            throw new Error('Failed to load the login page');
-        }
-
-        const statusLoginPage = responseLoginPage.status();
-
-        if (statusLoginPage !== 200) {
-            console.error('Login page did not return status 200.');
-            throw new Error('Failed to load the login page');
-        }
-
-        // Fill the login form
-        console.log('Filling in login form...');
-        await page.type('input[name=j_username]', DHIS2_USERNAME);
-        await page.type('input[name=j_password]', DHIS2_PASSWORD);
-
-        // Submit the login form
-        console.log('Submitting login form...');
-        await page.click('input[type="submit"][value="Sign in"]');
-        await page.waitForNavigation({ waitUntil: 'networkidle2' });
-
-        // Check if login was successful by navigating to the dashboard
-        console.log('Navigating to the dashboard...');
-        const dashboardResponse = await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
-
-        // Check if response is null before accessing status
-        if (!dashboardResponse) {
-            console.error('Failed to load the dashboard page.');
-            throw new Error('Login failed, could not access dashboard.');
-        }
-
-        const dashboardStatusCode = dashboardResponse.status();
-        const dashboardUrl = page.url();
-
-        if (dashboardUrl.includes('login.action') || dashboardStatusCode !== 200) {
-            console.error('Login failed, redirected back to login page.');
-            throw new Error('Login failed, could not access dashboard.');
-        }
-
-        console.log('Login and dashboard access successful.');
-
-        // Get the session cookies from Puppeteer
-        const cookies = await page.cookies();
-
-        // Send the cookies back to the client with the correct domain
-        cookies.forEach(cookie => {
-            res.cookie(cookie.name, cookie.value, {
-                domain: BASE_URL, // Set the correct domain
-                path: cookie.path,
-                httpOnly: cookie.httpOnly,
-                secure: cookie.secure,
-                sameSite: 'Lax'
+            // Launch Puppeteer browser in headless mode (background)
+            console.log('Launching Puppeteer...');
+            const browser = await puppeteer.launch({
+                headless: false, // Run in the background
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
             });
-        });
 
-        // Close Puppeteer browser
-        await browser.close();
+            const page = await browser.newPage();
+            console.log('Browser launched.');
 
-        // Send the dashboard URL to the client
-        return res.send({ message: 'Login successful', dashboardUrl });
+            const authenticated = await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
+
+
+            // Navigate to the DHIS2 login page
+            await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
+
+            // Fill the login form
+            console.log('Filling in login form...');
+            await page.type('input[name=j_username]', DHIS2_USERNAME);
+            await page.type('input[name=j_password]', DHIS2_PASSWORD);
+
+            // Submit the login form
+            console.log('Submitting login form...');
+            await page.click('input[type="submit"][value="Sign in"]');
+            await page.waitForNavigation({ waitUntil: 'networkidle2' });
+
+            // Check if login was successful by navigating to the dashboard
+            console.log('Navigating to the dashboard...');
+            await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
+
+            console.log('Login and dashboard access successful.');
+
+            // Get the session cookies from Puppeteer
+            const cookies = await page.cookies();
+
+            // Send the cookies back to the client with the correct domain
+            cookies.forEach(cookie => {
+                res.cookie(cookie.name, cookie.value, {
+                    domain: BASE_URL, // Set the correct domain
+                    path: cookie.path,
+                    httpOnly: cookie.httpOnly,
+                    secure: cookie.secure,
+                    sameSite: 'Lax'
+                });
+            });
+
+            // Get the final URL after login, this is the URL the iframe will use
+            const dashboardUrl = page.url();
+
+            // Close Puppeteer browser
+            await browser.close();
+
+            // Send the dashboard URL to the client
+            res.send({ message: 'Login successful', dashboardUrl });
+    }
 
     } catch (error) {
         console.error('Login failed:', error);
