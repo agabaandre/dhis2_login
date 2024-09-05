@@ -31,7 +31,7 @@ app.post('/node_app/login', async (req, res) => {
             await page.setCookie({
                 name: 'JSESSIONID',
                 value: req.cookies.JSESSIONID,
-                domain: new URL(DHIS2_DASHBOARD_URL).hostname, // Ensure correct domain
+                domain: BASE_URL, // Ensure correct domain
                 path: '/',
                 httpOnly: true,
                 secure: true,
