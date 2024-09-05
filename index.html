@@ -40,7 +40,9 @@
             methods: {
                 async autoLogin() {
                     try {
-                        const response = await axios.post('http://localhost:3000/node_app/login/', {}, {
+                        const baseUrl = window.location.origin;
+                        //console.log("Base URL is: " + baseUrl);
+                        const response = await axios.post(baseUrl+':3000/node_app/login/', {}, {
                             withCredentials: true // Essential for including cookies in the request
                         });
 
