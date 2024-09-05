@@ -23,63 +23,63 @@ app.post('/node_app/login', async (req, res) => {
 
             // Return the dashboard URL to the client
             return res.send({ message: 'Already authenticated', dashboardUrl });
-        }
+        } else {
+            console.log('No valid session found, proceeding with login.');
 
-        // Launch Puppeteer browser in headless mode (background)
-        console.log('Launching Puppeteer...');
-        const browser = await puppeteer.launch({
-            headless: 'old', // Run in the background
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
-
-        const page = await browser.newPage();
-        console.log('Browser launched.');
-
-        // Navigate to the DHIS2 login page
-        await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
-
-        // Fill the login form
-        console.log('Filling in login form...');
-        await page.type('input[name=j_username]', DHIS2_USERNAME);
-        await page.type('input[name=j_password]', DHIS2_PASSWORD);
-
-        // Submit the login form
-        console.log('Submitting login form...');
-        await page.click('input[type="submit"][value="Sign in"]');
-        await page.waitForNavigation({ waitUntil: 'networkidle2' });
-
-        // Check if login was successful by navigating to the dashboard
-        console.log('Navigating to the dashboard...');
-        await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
-
-        console.log('Login and dashboard access successful.');
-
-        // Get the session cookies from Puppeteer
-        const cookies = await page.cookies();
-
-        // Send the cookies back to the client with the correct domain
-        cookies.forEach(cookie => {
-            res.cookie(cookie.name, cookie.value, {
-                domain: BASE_URL, // Set the correct domain
-                path: cookie.path,
-                httpOnly: cookie.httpOnly,
-                secure: cookie.secure,
-                sameSite: 'Lax'
+            // Launch Puppeteer browser in headless mode (background)
+            const browser = await puppeteer.launch({
+                headless: 'old', // Run in the background
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
             });
-        });
 
-        // Get the final URL after login, this is the URL the iframe will use
-        const dashboardUrl = page.url();
+            const page = await browser.newPage();
+            console.log('Browser launched.');
 
-        // Close Puppeteer browser
-        await browser.close();
+            // Navigate to the DHIS2 login page
+            await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
 
-        // Send the dashboard URL to the client
-        res.send({ message: 'Login successful', dashboardUrl });
+            // Fill the login form
+            console.log('Filling in login form...');
+            await page.type('input[name=j_username]', DHIS2_USERNAME);
+            await page.type('input[name=j_password]', DHIS2_PASSWORD);
 
+            // Submit the login form
+            console.log('Submitting login form...');
+            await page.click('input[type="submit"][value="Sign in"]');
+            await page.waitForNavigation({ waitUntil: 'networkidle2' });
+
+            // Check if login was successful by navigating to the dashboard
+            console.log('Navigating to the dashboard...');
+            await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
+
+            console.log('Login and dashboard access successful.');
+
+            // Get the session cookies from Puppeteer
+            const cookies = await page.cookies();
+
+            // Send the cookies back to the client with the correct domain
+            cookies.forEach(cookie => {
+                res.cookie(cookie.name, cookie.value, {
+                    domain: BASE_URL, // Set the correct domain
+                    path: cookie.path,
+                    httpOnly: cookie.httpOnly,
+                    secure: cookie.secure,
+                    sameSite: 'Lax'
+                });
+            });
+
+            // Get the final URL after login, this is the URL the iframe will use
+            const dashboardUrl = page.url();
+
+            // Close Puppeteer browser
+            await browser.close();
+
+            // Send the dashboard URL to the client
+            return res.send({ message: 'Login successful', dashboardUrl });
+        }
     } catch (error) {
         console.error('Login failed:', error);
-        res.status(500).send({ message: 'Login failed', error: error.message });
+        return res.status(500).send({ message: 'Login failed', error: error.message });
     }
 });
 
