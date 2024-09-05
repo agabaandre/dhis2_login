@@ -13,6 +13,7 @@ app.use(express.json());
 
 app.post('/node_app/login', async (req, res) => {
     const { DHIS2_USERNAME, DHIS2_PASSWORD, DHIS2_LOGIN_URL, DHIS2_DASHBOARD_URL, BASE_URL } = process.env;
+    const dash_url = decodeURIComponent(process.env.DHIS2_DASHBOARD_URL);
 
     try {
         // Launch Puppeteer browser in headless mode (background)
@@ -40,7 +41,7 @@ app.post('/node_app/login', async (req, res) => {
 
         // Check if login was successful by navigating to the dashboard
         console.log('Navigating to the dashboard...');
-        await page.goto(DHIS2_DASHBOARD_URL, { waitUntil: 'networkidle2' });
+        await page.goto(dash_url, { waitUntil: 'networkidle2' });
 
         console.log('Login and dashboard access successful.');
 
