@@ -41,24 +41,29 @@ app.post('/node_app/login', async (req, res) => {
             // Try to navigate to the dashboard URL
             const response = await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
 
-            const urlAfterNavigation = page.url();
-            const statusCode = response.status();
-
-            console.log(`Navigated to URL: ${urlAfterNavigation}, Status Code: ${statusCode}`);
-
-            // Check if we were redirected back to the login page
-            if (urlAfterNavigation.includes('login.action')) {
-                console.log('Session is invalid, redirected to login page. Proceeding with login.');
+            if (!response) {
+                console.log('Failed to navigate to the dashboard URL.');
                 await browser.close(); // Close browser to retry login
             } else {
-                // If on the dashboard, the session is valid
-                console.log('Session is valid, skipping login.');
+                const urlAfterNavigation = page.url();
+                const statusCode = response.status();
 
-                // Close Puppeteer browser
-                await browser.close();
+                console.log(`Navigated to URL: ${urlAfterNavigation}, Status Code: ${statusCode}`);
 
-                // Send the dashboard URL to the client
-                return res.send({ message: 'Already authenticated', dashboardUrl: urlAfterNavigation });
+                // Check if we were redirected back to the login page
+                if (urlAfterNavigation.includes('login.action')) {
+                    console.log('Session is invalid, redirected to login page. Proceeding with login.');
+                    await browser.close(); // Close browser to retry login
+                } else {
+                    // If on the dashboard, the session is valid
+                    console.log('Session is valid, skipping login.');
+
+                    // Close Puppeteer browser
+                    await browser.close();
+
+                    // Send the dashboard URL to the client
+                    return res.send({ message: 'Already authenticated', dashboardUrl: urlAfterNavigation });
+                }
             }
         }
 
@@ -75,10 +80,17 @@ app.post('/node_app/login', async (req, res) => {
 
         // Navigate to the DHIS2 login page
         const responseLoginPage = await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
+
+        // Check if response is null before accessing status
+        if (!responseLoginPage) {
+            console.error('Failed to load the login page.');
+            throw new Error('Failed to load the login page');
+        }
+
         const statusLoginPage = responseLoginPage.status();
 
         if (statusLoginPage !== 200) {
-            console.error('Failed to load the login page.');
+            console.error('Login page did not return status 200.');
             throw new Error('Failed to load the login page');
         }
 
@@ -95,11 +107,18 @@ app.post('/node_app/login', async (req, res) => {
         // Check if login was successful by navigating to the dashboard
         console.log('Navigating to the dashboard...');
         const dashboardResponse = await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
+
+        // Check if response is null before accessing status
+        if (!dashboardResponse) {
+            console.error('Failed to load the dashboard page.');
+            throw new Error('Login failed, could not access dashboard.');
+        }
+
         const dashboardStatusCode = dashboardResponse.status();
         const dashboardUrl = page.url();
 
         if (dashboardUrl.includes('login.action') || dashboardStatusCode !== 200) {
-            console.error('Login failed, could not access dashboard.');
+            console.error('Login failed, redirected back to login page.');
             throw new Error('Login failed, could not access dashboard.');
         }
 
