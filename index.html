@@ -40,9 +40,20 @@
             methods: {
                 async autoLogin() {
                     try {
-                        const baseUrl = window.location.origin;
-                        //console.log("Base URL is: " + baseUrl);
-                        const response = await axios.post(baseUrl+':3000/node_app/login/', {}, {
+                       const baseUrl = window.location.origin;
+                        console.log("Base URL is: " + baseUrl);
+
+                        let baseUrlF; // Declare variable
+
+                        // Check if the base URL contains 'localhost' or '127.0.0.1'
+                        if (baseUrl.includes('localhost') || baseUrl.includes('127.0.0.1')) {
+                            baseUrlF = baseUrl + ':3000'; // Concatenate port 3000 for localhost
+                        } else {
+                            baseUrlF = baseUrl; // Keep the remote server URL unchanged
+                        }
+
+                        console.log("Final Base URL is: " + baseUrlF);
+                        const response = await axios.post(baseUrlF+'/node_app/login/', {}, {
                             withCredentials: true // Essential for including cookies in the request
                         });
 
