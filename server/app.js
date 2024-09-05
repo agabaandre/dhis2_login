@@ -12,14 +12,13 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.post('/node_app/login', async (req, res) => {
-    const { DHIS2_USERNAME, DHIS2_PASSWORD, DHIS2_LOGIN_URL, DHIS2_DASHBOARD_URL, BASE_URL, DEFAULT_DASHBOARD } = process.env;
-    
+    const { DHIS2_USERNAME, DHIS2_PASSWORD, DHIS2_LOGIN_URL, DHIS2_DASHBOARD_URL, BASE_URL } = process.env;
 
     try {
         // Launch Puppeteer browser in headless mode (background)
         console.log('Launching Puppeteer...');
         const browser = await puppeteer.launch({
-            headless: true, // Run in the background
+            headless: false, // Run in the background
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 
@@ -41,7 +40,7 @@ app.post('/node_app/login', async (req, res) => {
 
         // Check if login was successful by navigating to the dashboard
         console.log('Navigating to the dashboard...');
-        await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
+        await page.goto(DHIS2_DASHBOARD_URL, { waitUntil: 'networkidle2' });
 
         console.log('Login and dashboard access successful.');
 
