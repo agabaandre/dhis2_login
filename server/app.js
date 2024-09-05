@@ -11,7 +11,7 @@ app.use(cors({ origin: process.env.DHIS2_LOGIN_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
-app.post('/login', async (req, res) => {
+app.post('/node_app/login', async (req, res) => {
     const { DHIS2_USERNAME, DHIS2_PASSWORD, DHIS2_LOGIN_URL, DHIS2_DASHBOARD_URL, BASE_URL } = process.env;
 
     try {
