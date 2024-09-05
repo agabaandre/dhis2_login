@@ -20,7 +20,7 @@ app.post('/node_app/login', async (req, res) => {
 
             // Launch Puppeteer browser in headless mode (background)
             const browser = await puppeteer.launch({
-                headless: 'old', // Run in the background
+                headless: true, // Run in the background
                 args: ['--no-sandbox', '--disable-setuid-sandbox']
             });
 
