@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.post('/node_app/login', async (req, res) => {
-    const { DHIS2_USERNAME, DHIS2_PASSWORD, DHIS2_LOGIN_URL, DHIS2_DASHBOARD_URL, BASE_URL } = process.env;
+    const { DHIS2_USERNAME, DHIS2_PASSWORD, DHIS2_LOGIN_URL, DHIS2_DASHBOARD_URL, BASE_URL, DEFAULT_DASHBOARD } = process.env;
     
 
     try {
