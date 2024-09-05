@@ -6,16 +6,25 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 // Enable CORS for all routes
-//Change to the DHIS2_LOGIN_URL if not testing on local host
 app.use(cors({ origin: process.env.DHIS2_LOGIN_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
 app.post('/node_app/login', async (req, res) => {
     const { DHIS2_USERNAME, DHIS2_PASSWORD, DHIS2_LOGIN_URL, DHIS2_DASHBOARD_URL, BASE_URL, DEFAULT_DASHBOARD } = process.env;
-    
 
     try {
+        // Check if the session cookies already exist on the client
+        if (req.cookies.JSESSIONID) {
+            console.log('Client already authenticated, skipping login.');
+
+            // Construct the dashboard URL
+            const dashboardUrl = `${DHIS2_DASHBOARD_URL}${DEFAULT_DASHBOARD}`;
+
+            // Return the dashboard URL to the client
+            return res.send({ message: 'Already authenticated', dashboardUrl });
+        }
+
         // Launch Puppeteer browser in headless mode (background)
         console.log('Launching Puppeteer...');
         const browser = await puppeteer.launch({
