@@ -16,7 +16,6 @@ app.post('/node_app/login', async (req, res) => {
     
 
     try {
-       
         // Launch Puppeteer browser in headless mode (background)
         console.log('Launching Puppeteer...');
         const browser = await puppeteer.launch({
@@ -26,9 +25,6 @@ app.post('/node_app/login', async (req, res) => {
 
         const page = await browser.newPage();
         console.log('Browser launched.');
-
-        const authenticated = await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
-        
 
         // Navigate to the DHIS2 login page
         await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
