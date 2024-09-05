@@ -17,7 +17,7 @@ app.post('/node_app/login', async (req, res) => {
         // Check if the session cookies already exist on the client
         if (req.cookies.JSESSIONID) {
             console.log('Client already authenticated, skipping login.');
-            console.log(req.cookies);
+            console.log(req);
 
 
 
