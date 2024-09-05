@@ -20,8 +20,8 @@ app.post('/node_app/login', async (req, res) => {
 
             // Launch Puppeteer browser in headless mode (background)
             const browser = await puppeteer.launch({
-                headless: true, // Run in the background
-                args: ['--no-sandbox', '--disable-setuid-sandbox']
+                headless: true, // Use the latest headless mode for stability
+                args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
             });
 
             const page = await browser.newPage();
@@ -31,7 +31,7 @@ app.post('/node_app/login', async (req, res) => {
             await page.setCookie({
                 name: 'JSESSIONID',
                 value: req.cookies.JSESSIONID,
-                domain: BASE_URL, // Ensure correct domain
+                domain: new URL(DHIS2_DASHBOARD_URL).hostname, // Extract hostname dynamically
                 path: '/',
                 httpOnly: true,
                 secure: true,
@@ -41,14 +41,17 @@ app.post('/node_app/login', async (req, res) => {
             // Try to navigate to the dashboard URL
             const response = await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
 
-            // Check the response status code to see if it's the dashboard or a redirect to login
             const urlAfterNavigation = page.url();
             const statusCode = response.status();
 
             console.log(`Navigated to URL: ${urlAfterNavigation}, Status Code: ${statusCode}`);
 
-            // If we are on the dashboard (not redirected to login), session is valid
-            if (statusCode === 200 && urlAfterNavigation.includes(DEFAULT_DASHBOARD)) {
+            // Check if we were redirected back to the login page
+            if (urlAfterNavigation.includes('login.action')) {
+                console.log('Session is invalid, redirected to login page. Proceeding with login.');
+                await browser.close(); // Close browser to retry login
+            } else {
+                // If on the dashboard, the session is valid
                 console.log('Session is valid, skipping login.');
 
                 // Close Puppeteer browser
@@ -57,17 +60,14 @@ app.post('/node_app/login', async (req, res) => {
                 // Send the dashboard URL to the client
                 return res.send({ message: 'Already authenticated', dashboardUrl: urlAfterNavigation });
             }
-
-            console.log('Session is invalid, proceeding with login.');
-            await browser.close();
         }
 
         console.log('No valid session found or session is invalid, proceeding with login.');
 
         // Launch Puppeteer browser in headless mode for login
         const browser = await puppeteer.launch({
-            headless: 'old',
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
         });
 
         const page = await browser.newPage();
@@ -96,8 +96,9 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Navigating to the dashboard...');
         const dashboardResponse = await page.goto(DHIS2_DASHBOARD_URL + DEFAULT_DASHBOARD, { waitUntil: 'networkidle2' });
         const dashboardStatusCode = dashboardResponse.status();
+        const dashboardUrl = page.url();
 
-        if (dashboardStatusCode !== 200) {
+        if (dashboardUrl.includes('login.action') || dashboardStatusCode !== 200) {
             console.error('Login failed, could not access dashboard.');
             throw new Error('Login failed, could not access dashboard.');
         }
@@ -117,9 +118,6 @@ app.post('/node_app/login', async (req, res) => {
                 sameSite: 'Lax'
             });
         });
-
-        // Get the final URL after login, this is the URL the iframe will use
-        const dashboardUrl = page.url();
 
         // Close Puppeteer browser
         await browser.close();
