@@ -40,11 +40,11 @@
             methods: {
                 async autoLogin() {
                     try {
-                        const response = await axios.post('http://localhost:3000/node_app/login', {}, {
+                        const response = await axios.post('http://localhost:3000/node_app/login/', {}, {
                             withCredentials: true // Essential for including cookies in the request
                         });
 
-                        if (response.status === 200 && response.data.message === 'Login successful') {
+                        if (response.status === 200) {
                             this.dashboardUrl = response.data.dashboardUrl;
                             this.dashboardLoaded = true;
                             this.loading = false;
