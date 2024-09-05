@@ -44,7 +44,7 @@
                             withCredentials: true // Essential for including cookies in the request
                         });
 
-                        if (response.status === 200) {
+                        if (response.status === 200 && response.data.message === 'Login successful') {
                             this.dashboardUrl = response.data.dashboardUrl;
                             this.dashboardLoaded = true;
                             this.loading = false;
