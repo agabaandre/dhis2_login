@@ -21,13 +21,13 @@
             display: none !important;
         }
 
-        /* Circular Preloader Styles */
+        /* Circular Preloader Styles (Smaller and Centered) */
         .loader {
-            border: 16px solid #f3f3f3;
-            border-top: 16px solid #3498db;
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
             border-radius: 50%;
-            width: 120px;
-            height: 120px;
+            width: 60px;
+            height: 60px;
             animation: spin 2s linear infinite;
             position: absolute;
             top: 50%;
@@ -86,7 +86,7 @@
 
         <!-- Iframe that loads after preloader -->
         <div class="iframe-container" v-if="dashboardLoaded">
-            <iframe :src="dashboardUrl" width="100%" height="600px" frameborder="0" allowfullscreen
+            <iframe id="dashboardIframe" :src="dashboardUrl" width="100%" height="600px" frameborder="0" allowfullscreen
                 @load="iframeLoaded"></iframe>
         </div>
     </div>
@@ -141,6 +141,25 @@
                     const iframeContainer = document.querySelector('.iframe-container');
                     iframeContainer.classList.add('iframe-loaded'); // Add class to show the iframe
                     this.loading = false; // Hide the loader
+
+                    // Inject styles into the iframe (only works if iframe is same-origin)
+                    const iframe = document.getElementById('dashboardIframe');
+                    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+                    const styleElement = iframeDocument.createElement('style');
+                    styleElement.type = 'text/css';
+                    styleElement.appendChild(document.createTextNode(`
+                        div.jsx-55705730 {
+                            display: none !important;
+                        }
+                        div.jsx-2727136053 {
+                            display: none !important;
+                        }
+                        .headerbar-profile.jsx-3442481507 {
+                            display: none !important;
+                        }
+                    `));
+                    iframeDocument.head.appendChild(styleElement);
                 }
             }
         });
