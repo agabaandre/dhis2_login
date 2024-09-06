@@ -37,7 +37,7 @@ app.post('/node_app/login', async (req, res) => {
             
             await Promise.all(cookies.map(async (cookie) => {
                 console.log(`Deleting cookie: ${cookie.name}`);
-                await page.deleteCookie({ name: 'JSESSIONID', domain: '.'.cookie.domain, path: '/' });
+                await page.deleteCookie({ name: 'JSESSIONID', domain: '.'.BASE_URL, path: '/' });
                 await page.deleteCookie({ name: cookie.name, domain: cookie.domain, path: cookie.path });
 
             }));
