@@ -133,88 +133,13 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="js/tempusdominus/js/ladder.min.js"></script>
+    <script src="js/tempusdominus/js/material.min.js"></script>
+
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script>
-
-        new Vue({
-            el: '#app',
-            data: {
-                loading: true,
-                errorMessage: '',
-                dashboardUrl: '',
-                dashboardLoaded: false
-            },
-            mounted() {
-                this.autoLogin();
-            },
-            methods: {
-                async autoLogin() {
-                    try {
-                        const baseUrl = window.location.origin;
-                        console.log("Base URL is: " + baseUrl);
-
-                        let baseUrlF;
-
-                        // Check if the base URL contains 'localhost' or '127.0.0.1'
-                        if (baseUrl.includes('localhost') || baseUrl.includes('127.0.0.1')) {
-                            baseUrlF = baseUrl + ':3000'; // Concatenate port 3000 for localhost
-                        } else {
-                            baseUrlF = baseUrl; // Keep the remote server URL unchanged
-                        }
-
-                        console.log("Final Base URL is: " + baseUrlF);
-                        const response = await axios.post(baseUrlF + '/node_app/login/', {}, {
-                            withCredentials: true // Essential for including cookies in the request
-                        });
-
-                        if (response.status === 200 && response.data.message === 'Login successful') {
-                            this.dashboardUrl = response.data.dashboardUrl;
-                            this.loading = false; // Stop showing the loader
-                            this.dashboardLoaded = true; // Start showing the iframe
-                        } else {
-                            this.loading = false;
-                            this.errorMessage = 'Failed to load dashboard: ' + (response.data.message || 'No message');
-                        }
-                    } catch (error) {
-                        this.loading = false;
-                        this.errorMessage = 'Login failed: ' + (error.response?.data?.message || 'Unknown error');
-                    }
-                },
-                iframeLoaded() {
-                    // Called when the iframe is fully loaded
-                    const iframeContainer = document.querySelector('.iframe-container');
-                    iframeContainer.classList.add('iframe-loaded'); // Add class to show the iframe
-                    this.loading = false; // Hide the loader
-
-                    // Inject styles into the iframe (only works if iframe is same-origin)
-                    const iframe = document.getElementById('dashboardIframe');
-                    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-
-                    const styleElement = iframeDocument.createElement('style');
-                    styleElement.type = 'text/css';
-                    styleElement.appendChild(document.createTextNode(`
-                        .TitleBar_title__9wjDi{
-                            display: none !important;
-                        }
-                        .StarDashboardButton_star__PVx7o{
-                            display: none !important;
-                        }
-                        .jsx-3809446089 {
-                            display: none !important;
-                        }
-                        .DashboardsBar_bar__0l1F7{
-                        display: none !important;
-                        }
-                                        
-                    `));
-                    iframeDocument.head.appendChild(styleElement);
-                }
-            }
-        });
-
-    </script>
+    
 </body>
 
 </html>

@@ -31,7 +31,7 @@
         $('.sidebar, .content').toggleClass("open");
         return false;
     });
-
+ 
 
     // Progress Bar
     $('.pg-bar').waypoint(function () {
@@ -41,5 +41,7 @@
     }, {offset: '80%'});
 
     
-})(jQuery);
+})
+
+(jQuery);
 
