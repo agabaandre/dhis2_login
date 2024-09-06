@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 // Enable CORS for all routes
-// Change to the DHIS2_LOGIN_URL if not testing on local host
 app.use(cors({ origin: process.env.DHIS2_LOGIN_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
@@ -26,11 +25,22 @@ app.post('/node_app/login', async (req, res) => {
         const page = await browser.newPage();
         console.log('Browser launched.');
 
-        // Destroy any existing session by deleting session cookies
-        console.log('Clearing existing session cookies...');
-        const cookiesToClear = await page.cookies(BASE_URL);
-        for (let cookie of cookiesToClear) {
-            await page.deleteCookie({ name: cookie.name });
+        // Go to the base URL to check for existing cookies
+        console.log(`Navigating to ${BASE_URL} to check and clear cookies...`);
+        await page.goto(BASE_URL, { waitUntil: 'networkidle2' });
+
+        // Retrieve and delete existing cookies
+        const cookies = await page.cookies(BASE_URL);
+        console.log('Cookies to clear:', cookies);
+
+        if (cookies.length > 0) {
+            await Promise.all(cookies.map(async (cookie) => {
+                console.log(`Deleting cookie: ${cookie.name}`);
+                await page.deleteCookie({ name: cookie.name, domain: cookie.domain, path: cookie.path });
+            }));
+            console.log('Cookies cleared.');
+        } else {
+            console.log('No cookies to clear.');
         }
 
         // Navigate to the DHIS2 login page
@@ -54,18 +64,17 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Login and dashboard access successful.');
 
         // Get the session cookies from Puppeteer
-        const cookies = await page.cookies();
+        const newCookies = await page.cookies();
 
         // Send the cookies back to the client with the correct domain
-        cookies.forEach(cookie => {
+        newCookies.forEach(cookie => {
             res.cookie(cookie.name, cookie.value, {
                 domain: BASE_URL, // Set the correct domain
                 path: cookie.path,
                 httpOnly: cookie.httpOnly,
                 secure: cookie.secure,
-                size:42,
-                priority:'medium'
-            
+                sameSite: '',
+                
             });
         });
 
