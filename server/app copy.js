@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 // Enable CORS for all routes
-// Change to the DHIS2_LOGIN_URL if not testing on local host
+//Change to the DHIS2_LOGIN_URL if not testing on local host
 app.use(cors({ origin: process.env.DHIS2_LOGIN_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
@@ -26,15 +26,7 @@ app.post('/node_app/login', async (req, res) => {
         const page = await browser.newPage();
         console.log('Browser launched.');
 
-        // Destroy any existing session by deleting session cookies
-        console.log('Clearing existing session cookies...');
-        const cookiesToClear = await page.cookies(BASE_URL);
-        for (let cookie of cookiesToClear) {
-            await page.deleteCookie({ name: cookie.name });
-        }
-
         // Navigate to the DHIS2 login page
-        console.log('Navigating to login page...');
         await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
 
         // Fill the login form
