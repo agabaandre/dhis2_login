@@ -64,7 +64,7 @@ app.post('/node_app/login', async (req, res) => {
                 httpOnly: cookie.httpOnly,
                 secure: cookie.secure,
                 size:42,
-                priority:medium
+                priority:'medium'
             
             });
         });
