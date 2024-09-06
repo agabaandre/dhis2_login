@@ -91,13 +91,13 @@
         margin-left: 0;
     }
 
-    /* .sidebar.open {
+    .sidebar.open {
         margin-left: -250px;
-    } */
+    }
 
-    /* .content {
+    .content {
         width: calc(100% - 250px);
-    } */
+    }
 
     .content.open {
         width: 100%;
@@ -106,13 +106,13 @@
 }
 
 @media (max-width: 991.98px) {
-    /* .sidebar {
+    .sidebar {
         margin-left: -250px;
-    } */
+    }
 
-    /* .sidebar.open {
+    .sidebar.open {
         margin-left: 0;
-    } */
+    }
 
     .content {
         width: 100%;
