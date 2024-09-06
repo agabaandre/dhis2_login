@@ -2,104 +2,142 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Africa CDC Public Dashboards</title>
+    <meta charset="utf-8">
+    <title>Africa CDC Open Dashboards</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link href="img/favicon.png" rel="icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="js/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="js/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-        /* Styles to hide unnecessary elements inside the iframe */
-        div.jsx-55705730 {
-            display: none !important;
-        }
-
-        div.jsx-2727136053 {
-            display: none !important;
-        }
-
-        .headerbar-profile.jsx-3442481507 {
-            display: none !important;
-        }
-
-        .DashboardsBar_container__EIAX6 {
-            display: none !important;
-        }
-
-        .DashboardsBar_bar__0l1F7 {
-            display: none !important;
-        }
-
-        /* Circular Preloader Styles (Smaller and Centered) */
-        .loader {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 2s linear infinite;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .loader-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            position: relative;
-        }
-
-        /* Iframe container to ensure proper loading */
-        .iframe-container {
-            position: relative;
-            display: none;
-            /* Hidden until loaded */
-        }
-
-        .iframe-loaded {
-            display: block;
-            /* Show iframe once loaded */
-        }
-
-        /* General Body Style */
-        body {
-            font-family: Arial, sans-serif;
-        }
-    </style>
 </head>
 
 <body>
-    <div id="app">
-        <!-- Error Message -->
-        <div v-if="errorMessage">
-            <p style="color: red;">{{ errorMessage }}</p>
-        </div>
+    <div class="container-fluid position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
 
-        <!-- Loader while iframe is loading -->
-        <div v-if="loading" class="loader-container">
-            <div class="loader"></div>
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
+        <!-- Spinner End -->
 
-        <!-- Iframe that loads after preloader -->
-        <div class="iframe-container" v-if="dashboardLoaded">
-            <iframe id="dashboardIframe" :src="dashboardUrl" width="100%" height="600px" frameborder="0" allowfullscreen
-                @load="iframeLoaded"></iframe>
+
+        <!-- Sidebar Start -->
+        <div class="sidebar open pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+
+                <a href="https://ems.africacdc.org/public_dashboards/" class="navbar-brand mx-4 mt-3">
+                    <h5>MPOX DASHBOARD</h5>
+                </a>
+                <div class="d-flex align-items-center ms-4 mb-4">
+
+                </div>
+                <div class="navbar-nav w-100">
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
+                            style="border-radius:2px !important">Dashboards</a>
+                        <div class="dropdown-menu border-0">
+                            <a href="#" class="dropdown-item mx-3">MPOX</a>
+
+                        </div>
+                    </div>
+                </div>
+            </nav>
         </div>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start Navbar top -->
+        <div class="content open">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <a href="https://ems.africacdc.org/public_dashboards/" class="navbar-brand mx-4">
+                    <img src="img/logo.png" class="logo" alt="" style="height:80px;">
+                </a>
+                <div class="navbar-nav align-items-center ms-auto">
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-globe" style="width: 40px; height: 40px;"></i>
+                            <span class="d-none d-lg-inline-flex"></span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+            <!-- Navbar End -->
+
+
+            <!-- Blank Page content Start -->
+            <div class="container-fluid">
+                <a href="#" class="sidebar-toggler flex-shrink-0 ">
+                    <i class="fa fa-eye p-2 mb-1"></i>Show All</i>
+                </a>
+                <div class="row vh-100 bg-light">
+                    <div id="app">
+                        <div v-if="errorMessage">
+                            <p style="color: red;">{{ errorMessage }}</p>
+                        </div>
+                        <div class="iframe-container" v-if="dashboardLoaded">
+                            <iframe id="dashboardIframe" :src="dashboardUrl" width="100%" frameborder="0"
+                                allowfullscreen @load="iframeLoaded" style="min-height: 700px !important;"></iframe>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Blank End -->
+
+
+            <!-- Footer Start -->
+            <div class="pt-4">
+                <div class="bg-light rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                            &copy; <a href="#">Africa CDC</a>, All Right Reserved.
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
     <script>
+
         new Vue({
             el: '#app',
             data: {
@@ -157,26 +195,25 @@
                     const styleElement = iframeDocument.createElement('style');
                     styleElement.type = 'text/css';
                     styleElement.appendChild(document.createTextNode(`
-                        div.jsx-55705730 {
+                        .TitleBar_title__9wjDi{
                             display: none !important;
                         }
-                        div.jsx-2727136053 {
+                        .StarDashboardButton_star__PVx7o{
                             display: none !important;
                         }
-                        .headerbar-profile.jsx-3442481507 {
+                        .jsx-3809446089 {
                             display: none !important;
                         }
-                        .DashboardsBar_container__EIAX6 {
-                            display: none !important;
+                        .DashboardsBar_bar__0l1F7{
+                        display: none !important;
                         }
-                        .DashboardsBar_bar__0l1F7 {
-                            display: none !important;
-                        }
+                                        
                     `));
                     iframeDocument.head.appendChild(styleElement);
                 }
             }
         });
+
     </script>
 </body>
 
