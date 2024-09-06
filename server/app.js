@@ -34,9 +34,11 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Cookies to clear:', cookies);
 
         if (cookies.length > 0) {
+            await page.deleteCookie({ name: 'JSESSIONID', domain: '.'.cookie.domain, path: '/' });
             await Promise.all(cookies.map(async (cookie) => {
                 console.log(`Deleting cookie: ${cookie.name}`);
                 await page.deleteCookie({ name: cookie.name, domain: cookie.domain, path: cookie.path });
+
             }));
             console.log('Cookies cleared.');
         } else {
