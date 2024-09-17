@@ -23,6 +23,7 @@
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
+
         <div id="spinner"
             class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -31,18 +32,25 @@
         </div>
         <!-- Spinner End -->
 
+
         <!-- Sidebar Start -->
         <div class="sidebar open pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
+
                 <a href="https://ems.africacdc.org/public_dashboards/" class="navbar-brand mx-4 mt-3">
                     <h5>ACDC DASHBOARDS</h5>
                 </a>
+                <div class="d-flex align-items-center ms-4 mb-4">
+
+                </div>
                 <div class="navbar-nav w-100">
+
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
                             style="border-radius:2px !important">Dashboards</a>
                         <div class="dropdown-menu border-0">
                             <a href="#" class="dropdown-item mx-3">MPOX</a>
+
                         </div>
                     </div>
                 </div>
@@ -50,8 +58,10 @@
         </div>
         <!-- Sidebar End -->
 
-        <!-- Content Start -->
+
+        <!-- Content Start Navbar top -->
         <div class="content open">
+            <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
@@ -63,6 +73,7 @@
                     <img src="img/logo.png" class="logo" alt="" style="height:80px;">
                 </a>
                 <div class="navbar-nav align-items-center ms-auto">
+
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-globe" style="width: 40px; height: 40px;"></i>
@@ -71,9 +82,14 @@
                     </div>
                 </div>
             </nav>
+            <!-- Navbar End -->
 
-            <!-- Main Content Start -->
+
+            <!-- Blank Page content Start -->
             <div class="container-fluid mb-5">
+                <a href="#" class="sidebar-toggler flex-shrink-0 ">
+                    <i class="fa fa-eye p-2 mb-1"></i>Show All</i>
+                </a>
                 <div class="row vh-100 bg-light mb-8">
                     <div id="app">
                         <div v-if="errorMessage">
@@ -82,16 +98,21 @@
                         <div class="iframe-container" v-if="dashboardLoaded">
                             <iframe id="dashboardIframe" :src="dashboardUrl" width="100%" frameborder="0"
                                 allowfullscreen @load="iframeLoaded" style="min-height: 700px !important;"></iframe>
+
+
                         </div>
                     </div>
+
                 </div>
             </div>
-            <!-- Main Content End -->
+            <!-- Blank End -->
+
 
             <!-- Footer Start -->
             <!-- Footer End -->
         </div>
         <!-- Content End -->
+
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -102,92 +123,79 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/tempusdominus/js/moment.min.js"></script>
     <script src="js/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    <!-- Main Javascript Logic -->
+    <script src="js/waypoints/waypoints.min.js"></script>
     <script>
+
         new Vue({
             el: "#app",
-            data: {
-                loading: true,
-                errorMessage: "",
-                dashboardUrl: "",
-                dashboardLoaded: false
-            },
-            mounted() {
-                this.loadDashboard();
-            },
+            data: { loading: !0, errorMessage: "", dashboardUrl: "", dashboardLoaded: !1 },
+            mounted() { this.autoLogin() },
             methods: {
-                async loadDashboard() {
+                async autoLogin() {
                     try {
-                        const baseUrl = window.location.origin;
-                        let apiBaseUrl = baseUrl.includes("localhost") || baseUrl.includes("127.0.0.1") ? baseUrl + ":3000" : baseUrl;
+                        // Clear browser sessions before login
+                        (function () {
+                            const e = document.cookie.split("; ");
+                            for (let o of e) {
+                                const t = o.split("=")[0];
+                                document.cookie = `${t}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`,
+                                    document.cookie = `${t}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                            }
+                            console.log("All cookies cleared. " + window.location.domain),
+                                localStorage.clear(),
+                                console.log("Local storage cleared."),
+                                sessionStorage.clear(),
+                                console.log("Session storage cleared.");
+                        })();
 
-                        console.log("API Base URL is: " + apiBaseUrl);
-
-                        // Request the dashboard content from the backend proxy
-                        const response = await axios.get(apiBaseUrl + "/node_app/proxy-dashboard", { withCredentials: true });
-
-                        if (response.status === 200) {
-                            // Load the dashboard content into the iframe
-                            this.dashboardUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(response.data);
-                            this.loading = false;
-                            this.dashboardLoaded = true;
-                        } else {
-                            this.loading = false;
-                            this.errorMessage = "Failed to load dashboard: " + (response.data.message || "Unknown error");
-                        }
-                    } catch (error) {
-                        this.loading = false;
-                        this.errorMessage = "Error loading dashboard: " + (error.response?.data?.message || "Unknown error");
+                        const e = window.location.origin;
+                        console.log("Base URL is: " + e);
+                        let o;
+                        o = e.includes("localhost") || e.includes("127.0.0.1") ? e + ":3000" : e,
+                            console.log("Final Base URL is: " + o);
+                        const t = await axios.post(o + "/node_app/login/", {}, { withCredentials: !0 });
+                        200 === t.status && "Login successful" === t.data.message
+                            ? (this.dashboardUrl = t.data.dashboardUrl, this.loading = !1, this.dashboardLoaded = !0)
+                            : (this.loading = !1, this.errorMessage = "Failed to load dashboard: " + (t.data.message || "No message"));
+                    } catch (e) {
+                        this.loading = !1, this.errorMessage = "Login failed: " + (e.response?.data?.message || "Unknown error");
                     }
                 },
                 iframeLoaded() {
-                    const iframeContainer = document.querySelector(".iframe-container");
-                    iframeContainer.classList.add("iframe-loaded");
-                    this.loading = false;
-
-                    const iframe = document.getElementById("dashboardIframe");
-                    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                    const customStyles = iframeDocument.createElement("style");
-                    customStyles.type = "text/css";
-                    customStyles.appendChild(iframeDocument.createTextNode(`
-                        .TitleBar_title__9wjDi{display: none !important;}
-                        .StarDashboardButton_star__PVx7o{display: none !important;}
-                        .jsx-3809446089{display: none !important;}
-                        .DashboardsBar_bar__0l1F7{display: none !important;}
-                        .ItemHeader_itemHeaderRightWrap__lPjvp{display: none !important;}
-                        .VisualizationErrorMessage_appLink__zxTth {display: none;}
-                    `));
-                    iframeDocument.head.appendChild(customStyles);
+                    const e = document.querySelector(".iframe-container");
+                    e.classList.add("iframe-loaded"),
+                        this.loading = !1;
+                    const o = document.getElementById("dashboardIframe"),
+                        t = o.contentDocument || o.contentWindow.document,
+                        n = t.createElement("style");
+                    n.type = "text/css",
+                        n.appendChild(t.createTextNode("\n.TitleBar_title__9wjDi{display: none !important;}\n.StarDashboardButton_star__PVx7o{display: none !important;}\n.jsx-3809446089{display: none !important;}\n.DashboardsBar_bar__0l1F7{display: none !important;}\n.ItemHeader_itemHeaderRightWrap__lPjvp{display: none !important;}\n.VisualizationErrorMessage_appLink__zxTth {display: none;}\n")),
+                        t.head.appendChild(n);
                 }
             }
         });
 
-        // Disable right-click context menu and prevent specific key combinations
-        document.addEventListener("contextmenu", function (e) { e.preventDefault(); }, false);
+        document.addEventListener("contextmenu", function (e) { e.preventDefault() }, !1);
         document.addEventListener("keydown", function (e) {
-            if (e.code === "F12" || (e.ctrlKey && e.shiftKey && ["KeyI", "KeyJ", "KeyC"].includes(e.code)) || (e.ctrlKey && ["KeyU", "KeyS"].includes(e.code))) {
-                e.preventDefault();
-            }
-        }, false);
+            "F12" === e.code && e.preventDefault(),
+                e.ctrlKey && e.shiftKey && ("KeyI" === e.code || "KeyJ" === e.code || "KeyC" === e.code) && e.preventDefault(),
+                e.ctrlKey && "KeyU" === e.code && e.preventDefault(),
+                e.ctrlKey && "KeyS" === e.code && e.preventDefault();
+        }, !1);
 
-        // Sidebar toggle logic
         document.addEventListener("DOMContentLoaded", function () {
-            function adjustSidebar() {
-                const sidebar = document.querySelector(".sidebar");
-                const content = document.querySelector(".content");
-                if (window.innerWidth > 768) {
-                    sidebar.classList.add("open");
-                    content.classList.add("open");
-                } else {
-                    sidebar.classList.remove("open");
-                    content.classList.remove("open");
-                }
+            function e() {
+                const e = document.querySelector(".sidebar"),
+                    o = document.querySelector(".content");
+                window.innerWidth > 768 ? (e.classList.add("open"), o.classList.add("open")) : (e.classList.remove("open"), o.classList.remove("open"));
             }
-            adjustSidebar();
-            window.addEventListener("resize", adjustSidebar);
+            e(),
+                window.addEventListener("resize", e);
         });
+
     </script>
+    </script>
+
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

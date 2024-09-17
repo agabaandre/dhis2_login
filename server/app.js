@@ -5,94 +5,97 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const app = express();
-
-// Enable CORS for your frontend domain (replace BASE_URL with your actual frontend domain)
+// Enable CORS for all routes
 app.use(cors({ origin: process.env.BASE_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
-/**
- * Puppeteer function to login and fetch the session cookies
- */
-async function loginToDashboard() {
-    const { DHIS2_USERNAME, DHIS2_PASSWORD, DHIS2_LOGIN_URL } = process.env;
+app.post('/node_app/login', async (req, res) => {
+    const { DHIS2_USERNAME, DHIS2_PASSWORD, DHIS2_LOGIN_URL, DHIS2_DASHBOARD_URL, BASE_URL, DEFAULT_DASHBOARD } = process.env;
+    const dashUrl = `${DHIS2_DASHBOARD_URL.replace(/\/$/, '')}/${DEFAULT_DASHBOARD}`;
 
     try {
-        // Launch Puppeteer browser
+        // Launch Puppeteer browser in headless mode (background)
+        console.log('Launching Puppeteer...');
         const browser = await puppeteer.launch({
-            headless: true, // Run in background mode
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            headless: true, // Run in the background
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 
         const page = await browser.newPage();
+        console.log('Browser launched.');
 
-        // Navigate to the login page
+        // Go to the base URL to check for existing cookies
+        console.log(`Navigating to ${DHIS2_LOGIN_URL} to check and clear cookies...`);
         await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
 
-        // Fill in the login form
+        // Retrieve and delete existing cookies
+        const cookies = await page.cookies(DHIS2_LOGIN_URL);
+        console.log('Cookies to clear:', cookies);
+
+        if (cookies.length > 0) {
+            
+            await Promise.all(cookies.map(async (cookie) => {
+                console.log(`Deleting cookie: ${cookie.name}`);
+                await page.deleteCookie({ name: 'JSESSIONID', domain: '.'.BASE_URL, path: '/' });
+                await page.deleteCookie({ name: cookie.name, domain: cookie.domain, path: cookie.path });
+
+            }));
+            console.log('Cookies cleared.');
+        } else {
+            console.log('No cookies to clear.');
+        }
+
+        // Navigate to the DHIS2 login page
+        console.log('Navigating to login page...');
+        await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
+
+        // Fill the login form
+        console.log('Filling in login form...');
         await page.type('input[name=j_username]', DHIS2_USERNAME);
         await page.type('input[name=j_password]', DHIS2_PASSWORD);
 
-        // Submit the form and wait for navigation
-        await page.click('input[type="submit"]');
+        // Submit the login form
+        console.log('Submitting login form...');
+        await page.click('input[type="submit"][value="Sign in"]');
         await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
-        // Get the cookies after login
-        const cookies = await page.cookies();
+        // Check if login was successful by navigating to the dashboard
+        console.log('Navigating to the dashboard...');
+        await page.goto(dashUrl, { waitUntil: 'networkidle2' });
 
-        // Close the browser
-        await browser.close();
+        console.log('Login and dashboard access successful.');
 
-        return cookies;
-    } catch (error) {
-        console.error('Login to dashboard failed:', error);
-        throw new Error('Login failed');
-    }
-}
+        // Get the session cookies from Puppeteer
+        const newCookies = await page.cookies();
 
-/**
- * Proxy route to fetch authenticated dashboard content
- */
-app.get('/node_app/proxy-dashboard', async (req, res) => {
-    const { DHIS2_DASHBOARD_URL } = process.env;
+        // Send the cookies back to the client with the correct domain
+        newCookies.forEach(cookie => {
+            res.cookie(cookie.name, cookie.value, {
+                domain: BASE_URL, // Set the correct domain
+                path: cookie.path,
+                httpOnly: cookie.httpOnly,
+                secure: cookie.secure,
+                 sameSite: 'None',
 
-    try {
-        // Login to the dashboard and get the session cookies
-        const cookies = await loginToDashboard();
-
-        // Launch Puppeteer to fetch the dashboard content using the cookies
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            });
         });
 
-        const page = await browser.newPage();
+        // Get the final URL after login, this is the URL the iframe will use
+        const dashboardUrl = page.url();
 
-        // Set the session cookies
-        await page.setCookie(...cookies);
-
-        // Navigate to the dashboard URL
-        await page.goto(DHIS2_DASHBOARD_URL, { waitUntil: 'networkidle2' });
-
-        // Get the dashboard content (HTML)
-        const content = await page.content();
-
-        // Close the browser
+        // Close Puppeteer browser
         await browser.close();
 
-        // Send the content to the client
-        res.send(content);
+        // Send the dashboard URL to the client
+        res.send({ message: 'Login successful', dashboardUrl });
+
     } catch (error) {
-        console.error('Failed to fetch authenticated dashboard content:', error.message);
-        res.status(500).send({
-            message: 'Failed to fetch authenticated dashboard content',
-            error: error.message,
-        });
+        console.error('Login failed:', error);
+        res.status(500).send({ message: 'Login failed', error: error.message });
     }
 });
 
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Proxy server running on port ${PORT}`);
+app.listen(3000, () => {
+    console.log('Server running on port 3000');
 });
