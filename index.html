@@ -125,7 +125,7 @@
                         console.log("API Base URL is: " + apiBaseUrl);
 
                         // Request the dashboard content from the backend proxy
-                        const response = await axios.get(apiBaseUrl + "/proxy-dashboard", { withCredentials: true });
+                        const response = await axios.get(apiBaseUrl + "/node_app/proxy-dashboard", { withCredentials: true });
 
                         if (response.status === 200) {
                             // Load the dashboard content into the iframe

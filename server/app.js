@@ -53,7 +53,7 @@ async function loginToDashboard() {
 /**
  * Proxy route to fetch authenticated dashboard content
  */
-app.get('/proxy-dashboard', async (req, res) => {
+app.get('/node_app/proxy-dashboard', async (req, res) => {
     const { DHIS2_DASHBOARD_URL } = process.env;
 
     try {
