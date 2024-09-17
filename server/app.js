@@ -97,7 +97,7 @@ app.post('/node_app/login', async (req, res) => {
 
         // Set viewport height based on the page content's height to ensure all content is captured
         const bodyHeight = await page.evaluate(() => document.body.scrollHeight);
-        await page.setViewport({ width: 1920, height: bodyHeight });
+        await page.setViewport({ width: 1920, height: 5000 });
         console.log(`Viewport height adjusted to: ${bodyHeight}px`);
 
         // Function to take and save a full-page screenshot
