@@ -84,8 +84,8 @@
                         <div v-if="errorMessage">
                             <p style="color: red;">{{ errorMessage }}</p>
                         </div>
-                        <div class="image-container" v-if="dashboardLoaded">
-                            <!-- Image replacing iframe -->
+                        <div class="image-container">
+                            <!-- Initially show the default screenshot -->
                             <img :src="dashboardUrl" alt="Dashboard Screenshot" width="100%"
                                 style="min-height: 700px !important;">
                         </div>
@@ -113,7 +113,7 @@
             data: {
                 loading: true,
                 errorMessage: "",
-                dashboardUrl: "",
+                dashboardUrl: "/server/default_screenshot.png", // Load default screenshot initially
                 dashboardLoaded: false
             },
             mounted() {
@@ -145,7 +145,8 @@
                         const response = await axios.post(baseUrl + "/node_app/login/", {}, { withCredentials: true });
 
                         if (response.status === 200 && response.data.message === "Login successful") {
-                            this.dashboardUrl = response.data.dashboardUrl || "/server/dashboard_screenshot.png";
+                            // Update the dashboardUrl with the new screenshot URL returned by the server
+                            this.dashboardUrl = response.data.dashboardUrl || this.dashboardUrl;
                             this.dashboardLoaded = true;
                             this.loading = false;
                         } else {
