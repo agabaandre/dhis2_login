@@ -23,8 +23,7 @@
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner" v-if="loading"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -32,14 +31,12 @@
         <!-- Spinner End -->
 
         <!-- Top Bar Menu Start -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light w-100"
-            style="height: 60px; background-color: #005662; color: white;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light w-100" style="height: 60px; background-color: #005662; color: white;">
             <div class="container-fluid">
                 <a href="https://ems.africacdc.org/public_dashboards/" class="navbar-brand text-white">
                     ACDC DASHBOARDS
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -83,17 +80,21 @@
             </nav>
             <!-- Navbar End -->
 
-            <!-- Dashboard Image Start -->
-            <div class="container-fluid mb-5" id="app">
+            <!-- Blank Page content Start -->
+            <div class="container-fluid mb-5">
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-eye p-2 mb-1"></i>Show All (Last Update, 5mins ago)
+                </a>
                 <div class="row vh-100 bg-light mb-8">
-                    <div class="image-container" v-if="!loading">
-                        <!-- Show the dynamically loaded dashboard screenshot -->
-                        <img :src="dashboardUrl" alt="Dashboard Screenshot" width="100%"
-                            style="min-height: 700px !important;">
+                    <div id="app">
+                        <div class="image-container">
+                            <!-- Initially show the default screenshot -->
+                            <img :src="dashboardUrl" alt="Dashboard Screenshot" width="100%" style="min-height: 700px !important;">
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- Dashboard Image End -->
+            <!-- Blank End -->
         </div>
         <!-- Content End -->
 
@@ -107,37 +108,6 @@
     <script src="js/tempusdominus/js/moment.min.js"></script>
     <script src="js/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="js/waypoints/waypoints.min.js"></script>
-
-    <!-- Vue.js App Script -->
-    <script>
-        new Vue({
-            el: '#app',
-            data: {
-                dashboardUrl: '', // Placeholder for the dashboard image URL
-                loading: true, // Loading state for the spinner
-            },
-            mounted() {
-                // Fetch the latest dashboard image on load
-                this.loadDashboard();
-            },
-            methods: {
-                async loadDashboard() {
-                    try {
-                        // Replace this URL with your API endpoint or static image URL for the dashboard
-                        const response = await axios.get('/server/dashboard_screenshot.png', {
-                            responseType: 'blob' // Expect an image file
-                        });
-                        const imageURL = URL.createObjectURL(response.data);
-                        this.dashboardUrl = imageURL;
-                        this.loading = false; // Hide the spinner once loaded
-                    } catch (error) {
-                        console.error('Error loading dashboard:', error);
-                        this.loading = false;
-                    }
-                }
-            }
-        });
-    </script>
 
     <script src="js/main.js"></script>
 </body>
