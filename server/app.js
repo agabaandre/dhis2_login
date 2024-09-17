@@ -27,7 +27,7 @@ app.post('/node_app/login', async (req, res) => {
         const page = await browser.newPage();
         console.log('Browser launched.');
 
-        // Set viewport width to desktop size, but let Puppeteer handle the height automatically
+        // Set viewport width to desktop size, but the height will be dynamically set later
         await page.setViewport({ width: 1920, height: 1080 });
         console.log('Set viewport to desktop width.');
 
@@ -94,6 +94,11 @@ app.post('/node_app/login', async (req, res) => {
         // Scroll back to the top of the page
         console.log('Scrolling back to the top...');
         await page.evaluate(() => window.scrollTo(0, 0));
+
+        // Set viewport height based on the page content's height to ensure all content is captured
+        const bodyHeight = await page.evaluate(() => document.body.scrollHeight);
+        await page.setViewport({ width: 1920, height: bodyHeight });
+        console.log(`Viewport height adjusted to: ${bodyHeight}px`);
 
         // Function to take and save a full-page screenshot
         const screenshotPath = path.join(__dirname, 'dashboard_screenshot.png');
