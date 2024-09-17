@@ -70,7 +70,7 @@ app.post('/node_app/login', async (req, res) => {
 
         // Wait for some specific dashboard elements to load (e.g., charts, graphs, or any specific selector)
         console.log('Waiting for dashboard to fully load...');
-        await page.waitForSelector('#some-dashboard-element', { timeout: 60000 }); // Adjust selector to something unique to your dashboard
+        await page.waitForSelector('#dhis2-app-root', { timeout: 60000 }); // Adjust selector to something unique to your dashboard
 
         console.log('Dashboard fully loaded.');
 
