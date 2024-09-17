@@ -86,7 +86,7 @@
                         </div>
                         <div class="image-container" v-if="dashboardLoaded">
                             <!-- Image replacing iframe -->
-                            <img src="server/dashboard_screenshot.png" alt="Dashboard Screenshot" width="100%"
+                            <img :src="dashboardUrl" alt="Dashboard Screenshot" width="100%"
                                 style="min-height: 700px !important;">
                         </div>
                     </div>
@@ -106,9 +106,61 @@
     <script src="js/tempusdominus/js/moment.min.js"></script>
     <script src="js/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="js/waypoints/waypoints.min.js"></script>
-    <!-- <script src="js/tempusdominus/js/material.min.js"></script> -->
 
-    <!-- Template Javascript -->
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                loading: true,
+                errorMessage: "",
+                dashboardUrl: "",
+                dashboardLoaded: false
+            },
+            mounted() {
+                this.autoLogin();
+            },
+            methods: {
+                async autoLogin() {
+                    try {
+                        // Clear browser sessions before login
+                        (function () {
+                            const cookies = document.cookie.split("; ");
+                            for (let cookie of cookies) {
+                                const cookieName = cookie.split("=")[0];
+                                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
+                                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                            }
+                            console.log("All cookies cleared.");
+                            localStorage.clear();
+                            console.log("Local storage cleared.");
+                            sessionStorage.clear();
+                            console.log("Session storage cleared.");
+                        })();
+
+                        const baseUrl = window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
+                            ? window.location.origin + ":3000"
+                            : window.location.origin;
+
+                        console.log("Final Base URL is: " + baseUrl);
+                        const response = await axios.post(baseUrl + "/node_app/login/", {}, { withCredentials: true });
+
+                        if (response.status === 200 && response.data.message === "Login successful") {
+                            this.dashboardUrl = response.data.dashboardUrl || "/server/dashboard_screenshot.png";
+                            this.dashboardLoaded = true;
+                            this.loading = false;
+                        } else {
+                            this.loading = false;
+                            this.errorMessage = "Failed to load dashboard: " + (response.data.message || "No message");
+                        }
+                    } catch (error) {
+                        this.loading = false;
+                        this.errorMessage = "Login failed: " + (error.response?.data?.message || "Unknown error");
+                    }
+                }
+            }
+        });
+    </script>
+
     <script src="js/main.js"></script>
 </body>
 
