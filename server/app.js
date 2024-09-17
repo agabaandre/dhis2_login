@@ -64,46 +64,41 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Navigating to the dashboard...');
         await page.goto(dashUrl, { waitUntil: 'networkidle2' });
 
-        console.log('Login and dashboard access successful.');
+        // Wait for some specific dashboard elements to load (e.g., charts, graphs, or any specific selector)
+        console.log('Waiting for dashboard to fully load...');
+        await page.waitForSelector('#some-dashboard-element', { timeout: 60000 }); // Adjust selector to something unique to your dashboard
 
-        // Take a screenshot of the dashboard
+        console.log('Dashboard fully loaded.');
+
+        // Function to take and save a screenshot every 5 minutes
         const screenshotPath = path.join(__dirname, 'dashboard_screenshot.png');
-        console.log(`Screenshot path: ${screenshotPath}`);
 
-        try {
-            await page.screenshot({ path: screenshotPath });
-            console.log(`Screenshot saved at ${screenshotPath}`);
-        } catch (error) {
-            console.error('Failed to save screenshot:', error);
+        async function takeScreenshot() {
+            try {
+                await page.screenshot({ path: screenshotPath });
+                console.log(`Screenshot saved at ${screenshotPath}`);
+                // Send the screenshot file to the client
+                res.sendFile(screenshotPath, () => {
+                    console.log('Screenshot sent to client');
+                    // Optionally delete the screenshot after sending
+                    // fs.unlinkSync(screenshotPath);
+                });
+            } catch (error) {
+                console.error('Failed to save screenshot:', error);
+            }
         }
 
-        // Get the session cookies from Puppeteer
-        const newCookies = await page.cookies();
+        // Take a screenshot immediately after the dashboard loads
+        await takeScreenshot();
 
-        // Send the cookies back to the client with the correct domain
-        newCookies.forEach(cookie => {
-            res.cookie(cookie.name, cookie.value, {
-                domain: BASE_URL, // Set the correct domain
-                path: cookie.path,
-                httpOnly: cookie.httpOnly,
-                secure: cookie.secure,
-                sameSite: 'None',
-            });
-        });
+        // Set an interval to take a screenshot every 5 minutes (300,000 milliseconds)
+        setInterval(async () => {
+            console.log('Taking screenshot every 5 minutes...');
+            await takeScreenshot();
+        }, 300000); // 300,000 ms = 5 minutes
 
-        // Get the final URL after login, this is the URL the iframe will use
-        const dashboardUrl = page.url();
-
-        // Close Puppeteer browser
-        await browser.close();
-
-        // Send the screenshot file and dashboard URL to the client
-        // res.sendFile(screenshotPath, () => {
-        //     console.log('Screenshot sent to client');
-        //     // Optionally, you can delete the screenshot file after sending
-        //     // Commenting this line out to ensure the file is saved
-        //     // fs.unlinkSync(screenshotPath);
-        // });
+        // Close Puppeteer browser when the server shuts down or as per your requirement
+        // await browser.close();
 
     } catch (error) {
         console.error('Login failed:', error);
