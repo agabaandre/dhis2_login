@@ -95,9 +95,19 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Scrolling back to the top...');
         await page.evaluate(() => window.scrollTo(0, 0));
 
+        // **Remove the header elements** before taking a screenshot
+        await page.evaluate(() => {
+            // Example: Removing the header by its tag or class (adjust this selector to match your page)
+            const header = document.querySelector('header'); // Replace with the actual header selector
+            if (header) {
+                header.remove(); // Remove the header element from the DOM
+            }
+        });
+        console.log('Header removed.');
+
         // Set viewport height based on the page content's height to ensure all content is captured
         const bodyHeight = await page.evaluate(() => document.body.scrollHeight);
-        await page.setViewport({ width: 1920, height: 2000 });
+        await page.setViewport({ width: 1920, height: 2200 });
         console.log(`Viewport height adjusted to: ${bodyHeight}px`);
 
         // Function to take and save a full-page screenshot
