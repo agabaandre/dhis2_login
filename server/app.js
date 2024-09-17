@@ -97,17 +97,19 @@ app.post('/node_app/login', async (req, res) => {
 
         // **Remove the header elements** before taking a screenshot
         await page.evaluate(() => {
-            // Example: Removing the header by its tag or class (adjust this selector to match your page)
+            // Removing the header by its tag (adjust this selector to match your page)
             const header = document.querySelector('header'); // Replace with the actual header selector
             if (header) {
-                header.remove('.DashboardsBar_bar__0l1F7'); // Remove the header element from the DOM
+                header.remove(); // Remove the header element from the DOM
             }
-            // Example: Removing the header by its tag or class (adjust this selector to match your page)
-            const nav = document.querySelector('header'); // Replace with the actual header selector
+
+            // Removing the element with class '.DashboardsBar_bar__0l1F7'
+            const nav = document.querySelector('.DashboardsBar_bar__0l1F7'); // Replace with the actual class selector
             if (nav) {
-                nav.remove(); // Remove the header element from the DOM
+                nav.remove(); // Remove the nav element from the DOM
             }
         });
+
         console.log('Header removed.');
 
         // Set viewport height based on the page content's height to ensure all content is captured
