@@ -5,9 +5,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const app = express();
-
-// Enable CORS for all routes (ensure that origin is your frontend's origin, not DHIS2 login URL)
-app.use(cors({ origin: process.env.BASE_URL, credentials: true }));
+// Enable CORS for all routes
+app.use(cors({ origin: process.env.DHIS2_LOGIN_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
@@ -26,7 +25,7 @@ app.post('/node_app/login', async (req, res) => {
         const page = await browser.newPage();
         console.log('Browser launched.');
 
-        // Navigate to the base URL to check for existing cookies
+        // Go to the base URL to check for existing cookies
         console.log(`Navigating to ${DHIS2_LOGIN_URL} to check and clear cookies...`);
         await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
 
@@ -35,10 +34,12 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Cookies to clear:', cookies);
 
         if (cookies.length > 0) {
+            
             await Promise.all(cookies.map(async (cookie) => {
                 console.log(`Deleting cookie: ${cookie.name}`);
-                await page.deleteCookie({ name: 'JSESSIONID', domain: `.${BASE_URL}`, path: '/' });
+                await page.deleteCookie({ name: 'JSESSIONID', domain: '.'.BASE_URL, path: '/' });
                 await page.deleteCookie({ name: cookie.name, domain: cookie.domain, path: cookie.path });
+
             }));
             console.log('Cookies cleared.');
         } else {
@@ -49,7 +50,7 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Navigating to login page...');
         await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
 
-        // Fill in the login form
+        // Fill the login form
         console.log('Filling in login form...');
         await page.type('input[name=j_username]', DHIS2_USERNAME);
         await page.type('input[name=j_password]', DHIS2_PASSWORD);
@@ -74,8 +75,9 @@ app.post('/node_app/login', async (req, res) => {
                 domain: BASE_URL, // Set the correct domain
                 path: cookie.path,
                 httpOnly: cookie.httpOnly,
-                secure: cookie.secure || true, // Ensure cookies are secure
-                sameSite: cookie.sameSite || 'None', // Cross-site cookies require SameSite=None
+                secure: cookie.secure,
+                sameSite: 'None',
+
             });
         });
 
@@ -94,7 +96,6 @@ app.post('/node_app/login', async (req, res) => {
     }
 });
 
-// Start the server on port 3000
 app.listen(3000, () => {
     console.log('Server running on port 3000');
 });
