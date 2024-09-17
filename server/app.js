@@ -27,6 +27,10 @@ app.post('/node_app/login', async (req, res) => {
         const page = await browser.newPage();
         console.log('Browser launched.');
 
+        // Set viewport width to desktop size, but let Puppeteer handle the height automatically
+        await page.setViewport({ width: 1920, height: 1080 }); // Initial viewport, will adjust with fullPage
+        console.log('Set viewport to desktop width.');
+
         // Go to the base URL to check for existing cookies
         console.log(`Navigating to ${DHIS2_LOGIN_URL} to check and clear cookies...`);
         await page.goto(DHIS2_LOGIN_URL, { waitUntil: 'networkidle2' });
@@ -70,13 +74,14 @@ app.post('/node_app/login', async (req, res) => {
 
         console.log('Dashboard fully loaded.');
 
-        // Function to take and save a screenshot every 5 minutes
+        // Function to take and save a full-page screenshot every 5 minutes
         const screenshotPath = path.join(__dirname, 'dashboard_screenshot.png');
 
         async function takeScreenshot() {
             try {
-                await page.screenshot({ path: screenshotPath });
-                console.log(`Screenshot saved at ${screenshotPath}`);
+                // Take a full-page screenshot (automatic height based on page content)
+                await page.screenshot({ path: screenshotPath, fullPage: true });
+                console.log(`Full-page screenshot saved at ${screenshotPath}`);
                 // Send the screenshot file to the client
                 res.sendFile(screenshotPath, () => {
                     console.log('Screenshot sent to client');
