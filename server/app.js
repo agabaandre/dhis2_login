@@ -38,7 +38,7 @@ app.post('/node_app/login', async (req, res) => {
         if (cookies.length > 0) {
             await Promise.all(cookies.map(async (cookie) => {
                 console.log(`Deleting cookie: ${cookie.name}`);
-                await page.deleteCookie({ name: 'JSESSIONID', domain: '.'.BASE_URL, path: '/' });
+                await page.deleteCookie({ name: 'JSESSIONID', domain: BASE_URL, path: '/' });
                 await page.deleteCookie({ name: cookie.name, domain: cookie.domain, path: cookie.path });
             }));
             console.log('Cookies cleared.');
@@ -68,8 +68,14 @@ app.post('/node_app/login', async (req, res) => {
 
         // Take a screenshot of the dashboard
         const screenshotPath = path.join(__dirname, 'dashboard_screenshot.png');
-        await page.screenshot({ path: screenshotPath });
-        console.log(`Screenshot saved at ${screenshotPath}`);
+        console.log(`Screenshot path: ${screenshotPath}`);
+
+        try {
+            await page.screenshot({ path: screenshotPath });
+            console.log(`Screenshot saved at ${screenshotPath}`);
+        } catch (error) {
+            console.error('Failed to save screenshot:', error);
+        }
 
         // Get the session cookies from Puppeteer
         const newCookies = await page.cookies();
@@ -95,7 +101,8 @@ app.post('/node_app/login', async (req, res) => {
         res.sendFile(screenshotPath, () => {
             console.log('Screenshot sent to client');
             // Optionally, you can delete the screenshot file after sending
-            fs.unlinkSync(screenshotPath);
+            // Commenting this line out to ensure the file is saved
+            // fs.unlinkSync(screenshotPath);
         });
 
     } catch (error) {
