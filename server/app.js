@@ -100,7 +100,12 @@ app.post('/node_app/login', async (req, res) => {
             // Example: Removing the header by its tag or class (adjust this selector to match your page)
             const header = document.querySelector('header'); // Replace with the actual header selector
             if (header) {
-                header.remove(); // Remove the header element from the DOM
+                header.remove('.DashboardsBar_bar__0l1F7'); // Remove the header element from the DOM
+            }
+            // Example: Removing the header by its tag or class (adjust this selector to match your page)
+            const nav = document.querySelector('header'); // Replace with the actual header selector
+            if (nav) {
+                nav.remove(); // Remove the header element from the DOM
             }
         });
         console.log('Header removed.');
