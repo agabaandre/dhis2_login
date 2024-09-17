@@ -23,7 +23,6 @@
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-
         <div id="spinner"
             class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -32,25 +31,18 @@
         </div>
         <!-- Spinner End -->
 
-
         <!-- Sidebar Start -->
         <div class="sidebar open pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
-
                 <a href="https://ems.africacdc.org/public_dashboards/" class="navbar-brand mx-4 mt-3">
                     <h5>ACDC DASHBOARDS</h5>
                 </a>
-                <div class="d-flex align-items-center ms-4 mb-4">
-
-                </div>
                 <div class="navbar-nav w-100">
-
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
                             style="border-radius:2px !important">Dashboards</a>
                         <div class="dropdown-menu border-0">
                             <a href="#" class="dropdown-item mx-3">MPOX</a>
-
                         </div>
                     </div>
                 </div>
@@ -58,8 +50,7 @@
         </div>
         <!-- Sidebar End -->
 
-
-        <!-- Content Start Navbar top -->
+        <!-- Content Start -->
         <div class="content open">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
@@ -73,7 +64,6 @@
                     <img src="img/logo.png" class="logo" alt="" style="height:80px;">
                 </a>
                 <div class="navbar-nav align-items-center ms-auto">
-
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-globe" style="width: 40px; height: 40px;"></i>
@@ -84,10 +74,9 @@
             </nav>
             <!-- Navbar End -->
 
-
             <!-- Blank Page content Start -->
             <div class="container-fluid mb-5">
-                <a href="#" class="sidebar-toggler flex-shrink-0 ">
+                <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-eye p-2 mb-1"></i>Show All</i>
                 </a>
                 <div class="row vh-100 bg-light mb-8">
@@ -95,24 +84,17 @@
                         <div v-if="errorMessage">
                             <p style="color: red;">{{ errorMessage }}</p>
                         </div>
-                        <div class="iframe-container" v-if="dashboardLoaded">
-                            <iframe id="dashboardIframe" :src="dashboardUrl" width="100%" frameborder="0"
-                                allowfullscreen @load="iframeLoaded" style="min-height: 700px !important;"></iframe>
-
-
+                        <div class="image-container" v-if="dashboardLoaded">
+                            <!-- Image replacing iframe -->
+                            <img src="/var/lib/dhis2_login/server/dashboard_screenshot" alt="Dashboard Screenshot" width="100%"
+                                style="min-height: 700px !important;">
                         </div>
                     </div>
-
                 </div>
             </div>
             <!-- Blank End -->
-
-
-            <!-- Footer Start -->
-            <!-- Footer End -->
         </div>
         <!-- Content End -->
-
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -126,10 +108,8 @@
     <script src="js/waypoints/waypoints.min.js"></script>
     <script src="js/tempusdominus/js/material.min.js"></script>
 
-
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-
 </body>
 
 </html>
