@@ -78,27 +78,14 @@ app.get('/proxy-dashboard', async (req, res) => {
         // Navigate to the dashboard URL
         await page.goto(DHIS2_DASHBOARD_URL, { waitUntil: 'networkidle2' });
 
-        // Fetch the full HTML content including external CSS links
+        // Get the dashboard content (HTML)
         const content = await page.content();
 
         // Close the browser
         await browser.close();
 
-        // Inject custom styles if needed
-        const customStyles = `
-            <style>
-                body {
-                    font-family: 'Heebo', sans-serif;
-                }
-                /* Add additional styles here */
-            </style>
-        `;
-
-        // Combine the original HTML content with custom styles
-        const fullContent = content.replace('</head>', `${customStyles}</head>`);
-
-        // Send the modified content to the client
-        res.send(fullContent);
+        // Send the content to the client
+        res.send(content);
     } catch (error) {
         console.error('Failed to fetch authenticated dashboard content:', error.message);
         res.status(500).send({
