@@ -76,7 +76,7 @@ app.post('/node_app/login', async (req, res) => {
                 path: cookie.path,
                 httpOnly: cookie.httpOnly,
                 secure: cookie.secure,
-                sameSite: '',
+                sameSite: 'None',
 
             });
         });
