@@ -28,7 +28,7 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Browser launched.');
 
         // Set viewport width to desktop size, but let Puppeteer handle the height automatically
-        await page.setViewport({ width: 1920, height: 1080 }); // Initial viewport, will adjust with fullPage
+        await page.setViewport({ width: 1920, height: 1080 });
         console.log('Set viewport to desktop width.');
 
         // Go to the base URL to check for existing cookies
@@ -68,13 +68,34 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Navigating to the dashboard...');
         await page.goto(dashUrl, { waitUntil: 'networkidle2' });
 
-        // Wait for some specific dashboard elements to load (e.g., charts, graphs, or any specific selector)
-        console.log('Waiting for dashboard to fully load...');
-        await page.waitForSelector('#dhis2-app-root', { timeout: 60000 }); // Adjust selector to something unique to your dashboard
+        // Scroll the page to ensure all content is loaded
+        async function autoScroll(page) {
+            await page.evaluate(async () => {
+                await new Promise((resolve) => {
+                    let totalHeight = 0;
+                    const distance = 100; // Scroll by 100px each step
+                    const timer = setInterval(() => {
+                        window.scrollBy(0, distance);
+                        totalHeight += distance;
 
-        console.log('Dashboard fully loaded.');
+                        if (totalHeight >= document.body.scrollHeight) {
+                            clearInterval(timer);
+                            resolve();
+                        }
+                    }, 200); // Wait 200ms between scrolls to allow content to load
+                });
+            });
+        }
 
-        // Function to take and save a full-page screenshot every 5 minutes
+        // Scroll down the page to make sure all contents are loaded
+        console.log('Scrolling down the page to ensure all content is loaded...');
+        await autoScroll(page);
+
+        // Scroll back to the top of the page
+        console.log('Scrolling back to the top...');
+        await page.evaluate(() => window.scrollTo(0, 0));
+
+        // Function to take and save a full-page screenshot
         const screenshotPath = path.join(__dirname, 'dashboard_screenshot.png');
 
         async function takeScreenshot() {
@@ -93,7 +114,15 @@ app.post('/node_app/login', async (req, res) => {
             }
         }
 
-        // Take a screenshot immediately after the dashboard loads
+        // Wait for 2 minutes to ensure all content is loaded
+        console.log('Waiting for 2 minutes to ensure the dashboard is fully loaded...');
+        await page.waitForTimeout(120000); // Wait for 2 minutes (120,000 milliseconds)
+
+        // Scroll down and ensure all content is loaded
+        await autoScroll(page);
+
+        // Scroll back up and take a screenshot
+        console.log('Taking screenshot...');
         await takeScreenshot();
 
         // Set an interval to take a screenshot every 5 minutes (300,000 milliseconds)
@@ -101,9 +130,6 @@ app.post('/node_app/login', async (req, res) => {
             console.log('Taking screenshot every 5 minutes...');
             await takeScreenshot();
         }, 300000); // 300,000 ms = 5 minutes
-
-        // Close Puppeteer browser when the server shuts down or as per your requirement
-        // await browser.close();
 
     } catch (error) {
         console.error('Login failed:', error);
