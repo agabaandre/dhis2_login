@@ -3,10 +3,12 @@ const express = require('express');
 const puppeteer = require('puppeteer');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const fs = require('fs'); // To save the file locally
+const path = require('path');
 
 const app = express();
 // Enable CORS for all routes
-app.use(cors({ origin: process.env.BASE_URL, credentials: true }));
+app.use(cors({ origin: process.env.DHIS2_LOGIN_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
@@ -34,12 +36,10 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Cookies to clear:', cookies);
 
         if (cookies.length > 0) {
-            
             await Promise.all(cookies.map(async (cookie) => {
                 console.log(`Deleting cookie: ${cookie.name}`);
                 await page.deleteCookie({ name: 'JSESSIONID', domain: '.'.BASE_URL, path: '/' });
                 await page.deleteCookie({ name: cookie.name, domain: cookie.domain, path: cookie.path });
-
             }));
             console.log('Cookies cleared.');
         } else {
@@ -66,6 +66,11 @@ app.post('/node_app/login', async (req, res) => {
 
         console.log('Login and dashboard access successful.');
 
+        // Take a screenshot of the dashboard
+        const screenshotPath = path.join(__dirname, 'dashboard_screenshot.png');
+        await page.screenshot({ path: screenshotPath });
+        console.log(`Screenshot saved at ${screenshotPath}`);
+
         // Get the session cookies from Puppeteer
         const newCookies = await page.cookies();
 
@@ -76,8 +81,7 @@ app.post('/node_app/login', async (req, res) => {
                 path: cookie.path,
                 httpOnly: cookie.httpOnly,
                 secure: cookie.secure,
-                 sameSite: 'None',
-
+                sameSite: 'None',
             });
         });
 
@@ -87,8 +91,12 @@ app.post('/node_app/login', async (req, res) => {
         // Close Puppeteer browser
         await browser.close();
 
-        // Send the dashboard URL to the client
-        res.send({ message: 'Login successful', dashboardUrl });
+        // Send the screenshot file and dashboard URL to the client
+        res.sendFile(screenshotPath, () => {
+            console.log('Screenshot sent to client');
+            // Optionally, you can delete the screenshot file after sending
+            fs.unlinkSync(screenshotPath);
+        });
 
     } catch (error) {
         console.error('Login failed:', error);
