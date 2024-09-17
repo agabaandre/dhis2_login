@@ -7,11 +7,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 // Enable CORS for your frontend domain (replace BASE_URL with your actual frontend domain)
-app.use(cors({
-    origin: process.env.BASE_URL, // Replace with the actual domain of your frontend
-    credentials: true, // Allow cookies and credentials to be sent in CORS requests
-}));
-
+app.use(cors({ origin: process.env.BASE_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
@@ -57,7 +53,7 @@ async function loginToDashboard() {
 /**
  * Proxy route to fetch authenticated dashboard content
  */
-app.get('/proxy-dashboard', async (req, res) => {
+app.get('/node_app/proxy-dashboard', async (req, res) => {
     const { DHIS2_DASHBOARD_URL } = process.env;
 
     try {
