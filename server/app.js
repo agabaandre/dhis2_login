@@ -98,12 +98,12 @@ app.post('/node_app/login', async (req, res) => {
         await browser.close();
 
         // Send the screenshot file and dashboard URL to the client
-        res.sendFile(screenshotPath, () => {
-            console.log('Screenshot sent to client');
-            // Optionally, you can delete the screenshot file after sending
-            // Commenting this line out to ensure the file is saved
-            // fs.unlinkSync(screenshotPath);
-        });
+        // res.sendFile(screenshotPath, () => {
+        //     console.log('Screenshot sent to client');
+        //     // Optionally, you can delete the screenshot file after sending
+        //     // Commenting this line out to ensure the file is saved
+        //     // fs.unlinkSync(screenshotPath);
+        // });
 
     } catch (error) {
         console.error('Login failed:', error);
