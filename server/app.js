@@ -69,6 +69,10 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Navigating to the dashboard...');
         await page.goto(dashUrl, { waitUntil: 'networkidle2' });
 
+        // Wait for specific elements to ensure the page is fully loaded
+        console.log('Waiting for the dashboard to fully load...');
+        await page.waitForSelector('div.DashboardComponent'); // Replace with a specific selector in your dashboard
+
         // Scroll the page to ensure all content is loaded
         async function autoScroll(page) {
             await page.evaluate(async () => {
@@ -92,6 +96,9 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Scrolling down the dashboard page...');
         await autoScroll(page);
 
+        // Wait an additional 5 seconds to ensure all dynamic content is fully loaded
+        await page.waitForTimeout(5000);
+
         // Scroll back to the top of the page
         console.log('Scrolling back to the top...');
         await page.evaluate(() => window.scrollTo(0, 0));
@@ -112,7 +119,7 @@ app.post('/node_app/login', async (req, res) => {
 
         // Set viewport height based on the page content's height
         const bodyHeight = await page.evaluate(() => document.body.scrollHeight);
-        await page.setViewport({ width: 1920, height: 2200 });
+        await page.setViewport({ width: 1920, height: bodyHeight });
         console.log(`Viewport height adjusted to: ${bodyHeight}px`);
 
         // Take dashboard screenshot
@@ -125,9 +132,16 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Navigating to the map page...');
         await page.goto(mapUrl, { waitUntil: 'networkidle2' });
 
+        // Wait for specific elements to ensure the map page is fully loaded
+        console.log('Waiting for the map to fully load...');
+        await page.waitForSelector('div.MapComponent'); // Replace with a specific selector in your map page
+
         // Scroll down the map page to ensure all content is loaded
         console.log('Scrolling down the map page...');
         await autoScroll(page);
+
+        // Wait an additional 5 seconds to ensure all dynamic content is fully loaded
+        await page.waitForTimeout(60000);
 
         // Remove unwanted elements from the map page
         await page.evaluate(() => {
@@ -151,8 +165,8 @@ app.post('/node_app/login', async (req, res) => {
 
         // Send both screenshots back to the client
         res.json({
-            dashboardImageUrl: `/server/dashboard_screenshot.png`,
-            mapImageUrl: `/sever/map_screenshot.png`
+            dashboardImageUrl: `/dashboard_screenshot.png`,
+            mapImageUrl: `/map_screenshot.png`
         });
 
         // Optionally close the browser
