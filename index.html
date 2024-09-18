@@ -185,6 +185,7 @@
     <script src="js/waypoints/waypoints.min.js"></script>
     <script>
         $(document).ready(function () {
+       
             let dashboardUrl = "/server/dashboard_screenshot.png";
             let mapUrl = "/server/map_screenshot.png";
 
@@ -211,6 +212,7 @@
             }
 
             function updateUrls(data) {
+                $("#lastUpdated").text(getCurrentDateTime());
                 $("#dashboardImage").attr("src", data.dashboardImageUrl || dashboardUrl);
                 $("#mapImage").attr("src", data.mapImageUrl || mapUrl);
             }
