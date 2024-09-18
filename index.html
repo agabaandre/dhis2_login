@@ -189,10 +189,16 @@
 
     <script>
         $(document).ready(function () {
+            // Hide the spinner initially
+            hideLoader();
+
             // Automatically run when the page is loaded
             loadDashboard();
 
             function loadDashboard() {
+                // Show the loader while loading data
+                showLoader();
+
                 // Perform Axios request
                 axios.post('/node_app/login/', {}, { withCredentials: true })
                     .then(function (response) {
@@ -202,11 +208,11 @@
                         } else {
                             console.error("Failed to load dashboard data: ", response.data.message || "No message");
                         }
-                        hideLoader();
+                        hideLoader(); // Hide the loader after success
                     })
                     .catch(function (error) {
                         console.error("Error loading dashboard data: ", error);
-                        hideLoader();
+                        hideLoader(); // Ensure the loader is hidden in case of failure
                     });
             }
 
@@ -221,7 +227,11 @@
             }
 
             function hideLoader() {
-                $('#spinner').hide();  // Hide the spinner once data is loaded
+                $('#spinner').hide();  // Hide the spinner
+            }
+
+            function showLoader() {
+                $('#spinner').show();  // Show the spinner
             }
 
             // Set interval for periodic updates (every 2 minutes)
