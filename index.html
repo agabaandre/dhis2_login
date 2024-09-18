@@ -31,25 +31,6 @@
         </div>
         <!-- Spinner End -->
 
-        <!-- Sidebar Start -->
-        <!-- <div class="sidebar open pe-4 pb-3">
-            <nav class="navbar bg-light navbar-light">
-                <a href="https://ems.africacdc.org/public_dashboards/" class="navbar-brand mx-4 mt-3">
-                    <h5>ACDC DASHBOARDS</h5>
-                </a>
-                <div class="navbar-nav w-100">
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
-                            style="border-radius:2px !important">Dashboards</a>
-                        <div class="dropdown-menu border-0">
-                            <a href="#" class="dropdown-item mx-3">MPOX</a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div> -->
-        <!-- Sidebar End -->
-
         <!-- Content Start -->
         <div class="content open">
             <!-- Navbar Start -->
@@ -84,8 +65,8 @@
                         <div v-if="errorMessage">
                             <p style="color: red;">{{ errorMessage }}</p>
                         </div>
-                        <div class="image-container" v-if="dashboardLoaded">
-                            <!-- Image replacing iframe -->
+                        <div class="image-container">
+                            <!-- Show the default image initially and update it when the response is received -->
                             <img :src="dashboardUrl" alt="Dashboard Screenshot" width="100%"
                                 style="min-height: 700px !important;">
                         </div>
@@ -113,7 +94,8 @@
             data: {
                 loading: true,
                 errorMessage: "",
-                dashboardUrl: "",
+                // Set the initial image to the default screenshot
+                dashboardUrl: "/server/dashboard_screenshot.png",
                 dashboardLoaded: false
             },
             mounted() {
@@ -145,7 +127,8 @@
                         const response = await axios.post(baseUrl + "/node_app/login/", {}, { withCredentials: true });
 
                         if (response.status === 200 && response.data.message === "Login successful") {
-                            this.dashboardUrl = response.data.dashboardUrl || "/server/dashboard_screenshot.png";
+                            // Update the dashboardUrl with the new image if provided by the backend
+                            this.dashboardUrl = response.data.dashboardUrl || this.dashboardUrl;
                             this.dashboardLoaded = true;
                             this.loading = false;
                         } else {
