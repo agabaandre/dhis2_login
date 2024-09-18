@@ -13,9 +13,9 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.post('/node_app/login', async (req, res) => {
-    const { DHIS2_USERNAME, DHIS2_PASSWORD, DHIS2_LOGIN_URL, DHIS2_DASHBOARD_URL, EMS_URL, BASE_URL, DEFAULT_DASHBOARD } = process.env;
+    const { DHIS2_USERNAME, DHIS2_PASSWORD, DHIS2_LOGIN_URL, DHIS2_DASHBOARD_URL, MAP_URL, BASE_URL, DEFAULT_DASHBOARD } = process.env;
     const dashUrl = `${DHIS2_DASHBOARD_URL.replace(/\/$/, '')}/${DEFAULT_DASHBOARD}`;
-    const mapUrl = `${EMS_URL}/dhis-web-maps/#/YVrdOLoeF0K`; // Full map URL
+    const mapUrl = MAP_URL; // Full map URL
 
     try {
         // Launch Puppeteer browser in headless mode (background)
