@@ -163,8 +163,8 @@ app.post('/node_app/login', async (req, res) => {
 
         // Send both screenshots back to the client
         res.json({
-            dashboardImageUrl: `/dashboard_screenshot.png`,
-            mapImageUrl: `/map_screenshot.png`
+            dashboardImageUrl: `/server/dashboard_screenshot.png`,
+            mapImageUrl: `/server/map_screenshot.png`
         });
 
         // Optionally close the browser
