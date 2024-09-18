@@ -213,6 +213,7 @@
             function updateUrls(data) {
                 $("#dashboardImage").attr("src", data.dashboardImageUrl || dashboardUrl);
                 $("#mapImage").attr("src", data.mapImageUrl || mapUrl);
+                 hideSpinner();
             }
 
             async function autoLogin() {
@@ -224,12 +225,14 @@
                     if (response) {
                         updateUrls(response);
                         $("#lastUpdated").text(getCurrentDateTime());  // Update with the new date from the server fetch
-                        hideSpinner();  // Hide spinner after successful login
+                         // Hide spinner after successful login
                     } else {
                         console.log("Failed to load screenshots.");
+                        ;  // Hide spinner even if there's a failure
                     }
                 } catch (error) {
                     console.error("Login failed:", error);
+                   // Ensure spinner hides in case of an error
                 }
             }
 
