@@ -108,13 +108,7 @@ app.post('/node_app/login', async (req, res) => {
             if (nav) {
                 nav.remove(); // Remove the nav element from the DOM
             }
-
-            // Removing the element with class '.DashboardsBar_bar__0l1F7'
-            const filters = document.querySelector('.TitleBar_container__T\+pnw'); // Replace with the actual class selector
-            if (filters) {
-                filters.remove(); // Remove the nav element from the DOM
-            }
-          
+            
         });
 
         console.log('Header removed.');
