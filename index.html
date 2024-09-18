@@ -35,141 +35,123 @@
         <div class="content open">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                </a>
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
                 <a href="https://dashboards.africacdc.org/" class="navbar-brand mx-4">
                     <img src="img/logo.png" class="logo" alt="" style="height:80px;">
                 </a>
-                <div class="navbar-nav align-items-center ms-auto">
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-globe" style="width: 40px; height: 40px;"></i>
-                            <span class="d-none d-lg-inline-flex"></span>
-                        </a>
-                    </div>
-                </div>
             </nav>
             <!-- Navbar End -->
 
-            <!-- Blank Page content Start -->
-        <div class="container-fluid mb-5">
-            <!-- Show All Link -->
-            <!-- <a href="#" class="sidebar-toggler flex-shrink-0">
-                <i class="fa fa-eye p-2 mb-1"></i>Show All</i>
-            </a> -->
-            <h3>M-POX Dashboard</h3>
-        
-            <!-- Tab Menu Start -->
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="epidemiological-tab" data-bs-toggle="tab" href="#epidemiological" role="tab"
-                        aria-controls="epidemiological" aria-selected="true">
-                        Epidemiological Summary
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="vaccination-tab" data-bs-toggle="tab" href="#vaccination" role="tab"
-                        aria-controls="vaccination" aria-selected="false">
-                        Vaccination
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="logistics-tab" data-bs-toggle="tab" href="#logistics" role="tab"
-                        aria-controls="logistics" aria-selected="false">
-                        Logistics
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="finance-tab" data-bs-toggle="tab" href="#finance" role="tab" aria-controls="finance"
-                        aria-selected="false">
-                        Finance
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="support-tab" data-bs-toggle="tab" href="#support" role="tab" aria-controls="support"
-                        aria-selected="false">
-                        Support
-                    </a>
-                </li>
-            </ul>
-        
-            <!-- Tab Content Start -->
-            <div class="tab-content" id="myTabContent">
-                <!-- Epidemiological Summary Tab -->
-                <div class="tab-pane fade show active" id="epidemiological" role="tabpanel"
-                    aria-labelledby="epidemiological-tab">
-                    <div class="row vh-100 bg-light mb-8">
-                        <div id="app">
-                            <div class="image-container">
-                               
-                                 <img :src="dashboardUrl" alt="Epidemiological Dashboard Screenshot" width="100%"
-                                    style="min-height: 700px !important;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- Vaccination Tab -->
-                <div class="tab-pane fade" id="vaccination" role="tabpanel" aria-labelledby="vaccination-tab">
-                    <div class="row vh-100 bg-light mb-8">
-                        <div id="app">
-                            <div class="image-container">
-                                <!-- Show the default image initially and update it when the response is received -->
-                                <!-- <img :src="dashboardUrl" alt="Vaccination Dashboard Screenshot" width="100%"
-                                    style="min-height: 700px !important;"> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- Logistics Tab -->
-                <div class="tab-pane fade" id="logistics" role="tabpanel" aria-labelledby="logistics-tab">
-                    <div class="row vh-100 bg-light mb-8">
-                        <div id="app">
-                            <div class="image-container">
-                                <!-- Show the default image initially and update it when the response is received -->
-                                <!-- <img :src="dashboardUrl" alt="Logistics Dashboard Screenshot" width="100%"
-                                    style="min-height: 700px !important;"> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- Finance Tab -->
-                <div class="tab-pane fade" id="finance" role="tabpanel" aria-labelledby="finance-tab">
-                    <div class="row vh-100 bg-light mb-8">
-                        <div id="app">
-                            <div class="image-container">
-                                <!-- Show the default image initially and update it when the response is received -->
-                                <!-- <img :src="dashboardUrl" alt="Finance Dashboard Screenshot" width="100%"
-                                    style="min-height: 700px !important;"> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-                <!-- Support Tab -->
-                <div class="tab-pane fade" id="support" role="tabpanel" aria-labelledby="support-tab">
-                    <div class="row vh-100 bg-light mb-8">
-                        <div id="app">
-                            <div class="image-container">
-                                <!-- Show the default image initially and update it when the response is received -->
-                                <!-- <img :src="dashboardUrl" alt="Support Dashboard Screenshot" width="100%"
-                                    style="min-height: 700px !important;"> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Tab Content End -->
-        
-        </div>
+            <div class="container-fluid mb-5">
+                <h3>M-POX Dashboard</h3>
 
-            <!-- Blank End -->
+                <!-- Tab Menu Start -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="epidemiological-tab" data-bs-toggle="tab" href="#epidemiological"
+                            role="tab" aria-controls="epidemiological" aria-selected="true">Epidemiological Summary</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="map-tab" data-bs-toggle="tab" href="#map" role="tab" aria-controls="map"
+                            aria-selected="false">Full Map View</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="vaccination-tab" data-bs-toggle="tab" href="#vaccination" role="tab"
+                            aria-controls="vaccination" aria-selected="false">Vaccination</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="logistics-tab" data-bs-toggle="tab" href="#logistics" role="tab"
+                            aria-controls="logistics" aria-selected="false">Logistics</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="finance-tab" data-bs-toggle="tab" href="#finance" role="tab"
+                            aria-controls="finance" aria-selected="false">Finance</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="support-tab" data-bs-toggle="tab" href="#support" role="tab"
+                            aria-controls="support" aria-selected="false">Support</a>
+                    </li>
+                </ul>
+
+                <!-- Tab Content Start -->
+                <div class="tab-content" id="myTabContent">
+                    <!-- Epidemiological Summary Tab -->
+                    <div class="tab-pane fade show active" id="epidemiological" role="tabpanel"
+                        aria-labelledby="epidemiological-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div id="app">
+                                <div class="image-container">
+                                    <img :src="dashboardUrl" alt="Epidemiological Dashboard Screenshot" width="100%"
+                                        style="min-height: 700px !important;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Full Map View Tab -->
+                    <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div id="app">
+                                <div class="map-container">
+                                    <img :src="mapUrl" alt="Map Screenshot" width="100%"
+                                        style="min-height: 700px !important;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vaccination Tab -->
+                    <div class="tab-pane fade" id="vaccination" role="tabpanel" aria-labelledby="vaccination-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div id="app">
+                                <div class="image-container">
+                                    <!-- <img :src="vaccinationUrl" alt="Vaccination Screenshot" width="100%"
+                                        style="min-height: 700px !important;"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logistics Tab -->
+                    <div class="tab-pane fade" id="logistics" role="tabpanel" aria-labelledby="logistics-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div id="app">
+                                <div class="image-container">
+                                    <!-- <img :src="logisticsUrl" alt="Logistics Screenshot" width="100%"
+                                        style="min-height: 700px !important;"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Finance Tab -->
+                    <div class="tab-pane fade" id="finance" role="tabpanel" aria-labelledby="finance-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div id="app">
+                                <div class="image-container">
+                                    <!-- <img :src="financeUrl" alt="Finance Screenshot" width="100%"
+                                        style="min-height: 700px !important;"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Tab -->
+                    <div class="tab-pane fade" id="support" role="tabpanel" aria-labelledby="support-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div id="app">
+                                <div class="image-container">
+                                    <!-- <img :src="supportUrl" alt="Support Screenshot" width="100%"
+                                        style="min-height: 700px !important;"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tab Content End -->
+            </div>
         </div>
         <!-- Content End -->
 
@@ -190,51 +172,84 @@
             data: {
                 loading: true,
                 errorMessage: "",
-                // Set the initial image to the default screenshot
-                dashboardUrl: "/server/dashboard_screenshot.png",
-                dashboardLoaded: false
+                // URLs for screenshots of different sections
+                dashboardUrl: "/dashboard_screenshot.png",
+                mapUrl: "/map_screenshot.png",
+                vaccinationUrl: "/vaccination_screenshot.png",
+                logisticsUrl: "/logistics_screenshot.png",
+                financeUrl: "/finance_screenshot.png",
+                supportUrl: "/support_screenshot.png",
             },
             mounted() {
                 this.autoLogin();
+                // Refresh all screenshots every 5 minutes (300000 ms)
+                setInterval(this.updateScreenshots, 300000);
             },
             methods: {
                 async autoLogin() {
                     try {
-                        // Clear browser sessions before login
-                        (function () {
-                            const cookies = document.cookie.split("; ");
-                            for (let cookie of cookies) {
-                                const cookieName = cookie.split("=")[0];
-                                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
-                                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-                            }
-                            console.log("All cookies cleared.");
-                            localStorage.clear();
-                            console.log("Local storage cleared.");
-                            sessionStorage.clear();
-                            console.log("Session storage cleared.");
-                        })();
-
-                        const baseUrl = window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
-                            ? window.location.origin + ":3000"
-                            : window.location.origin;
-
-                        console.log("Final Base URL is: " + baseUrl);
+                        // Clear cookies and local storage before login
+                        this.clearBrowserSessions();
+                        const baseUrl = this.getBaseUrl();
                         const response = await axios.post(baseUrl + "/node_app/login/", {}, { withCredentials: true });
 
-                        if (response.status === 200 && response.data.message === "Login successful") {
-                            // Update the dashboardUrl with the new image if provided by the backend
-                            this.dashboardUrl = response.data.dashboardUrl || this.dashboardUrl;
-                            this.dashboardLoaded = true;
+                        if (response.status === 200) {
+                            // Update URLs from server response if available
+                            this.dashboardUrl = response.data.dashboardImageUrl || this.dashboardUrl;
+                            this.mapUrl = response.data.mapImageUrl || this.mapUrl;
+                            this.vaccinationUrl = response.data.vaccinationImageUrl || this.vaccinationUrl;
+                            this.logisticsUrl = response.data.logisticsImageUrl || this.logisticsUrl;
+                            this.financeUrl = response.data.financeImageUrl || this.financeUrl;
+                            this.supportUrl = response.data.supportImageUrl || this.supportUrl;
                             this.loading = false;
                         } else {
                             this.loading = false;
-                            this.errorMessage = "Failed to load dashboard: " + (response.data.message || "No message");
+                            this.errorMessage = "Failed to load screenshots: " + (response.data.message || "No message");
                         }
                     } catch (error) {
                         this.loading = false;
                         this.errorMessage = "Login failed: " + (error.response?.data?.message || "Unknown error");
                     }
+                },
+                async updateScreenshots() {
+                    try {
+                        console.log("Refreshing screenshots...");
+                        const baseUrl = this.getBaseUrl();
+                        const response = await axios.post(baseUrl + "/node_app/login/", {}, { withCredentials: true });
+
+                        if (response.status === 200) {
+                            // Update URLs from server response if available
+                            this.dashboardUrl = response.data.dashboardImageUrl || this.dashboardUrl;
+                            this.mapUrl = response.data.mapImageUrl || this.mapUrl;
+                            this.vaccinationUrl = response.data.vaccinationImageUrl || this.vaccinationUrl;
+                            this.logisticsUrl = response.data.logisticsImageUrl || this.logisticsUrl;
+                            this.financeUrl = response.data.financeImageUrl || this.financeUrl;
+                            this.supportUrl = response.data.supportImageUrl || this.supportUrl;
+                            console.log("Screenshots updated successfully");
+                        } else {
+                            console.log("Failed to refresh screenshots");
+                        }
+                    } catch (error) {
+                        console.error("Error updating screenshots:", error);
+                    }
+                },
+                clearBrowserSessions() {
+                    const cookies = document.cookie.split("; ");
+                    for (let cookie of cookies) {
+                        const cookieName = cookie.split("=")[0];
+                        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
+                        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                    }
+                    console.log("All cookies cleared.");
+                    localStorage.clear();
+                    console.log("Local storage cleared.");
+                    sessionStorage.clear();
+                    console.log("Session storage cleared.");
+                },
+                getBaseUrl() {
+                    return window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
+                        ? window.location.origin + ":3000"
+                        : window.location.origin;
                 }
             }
         });
