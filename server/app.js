@@ -69,9 +69,9 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Navigating to the dashboard...');
         await page.goto(dashUrl, { waitUntil: 'networkidle2' });
 
-        // Wait for specific elements to ensure the page is fully loaded
-        console.log('Waiting for the dashboard to fully load...');
-        await page.waitForSelector('div.DashboardComponent'); // Replace with a specific selector in your dashboard
+        // Wait for 2 minutes to ensure the dashboard fully loads
+        console.log('Waiting for 2 minutes to ensure the dashboard fully loads...');
+        await page.waitForTimeout(60000); // 1 minutes (60,000 milliseconds)
 
         // Scroll the page to ensure all content is loaded
         async function autoScroll(page) {
@@ -87,7 +87,7 @@ app.post('/node_app/login', async (req, res) => {
                             clearInterval(timer);
                             resolve();
                         }
-                    }, 200); // Wait 200ms between scrolls to allow content to load
+                    }, 2000); // Wait 200ms between scrolls to allow content to load
                 });
             });
         }
@@ -95,9 +95,6 @@ app.post('/node_app/login', async (req, res) => {
         // Scroll down the page to make sure all contents are loaded
         console.log('Scrolling down the dashboard page...');
         await autoScroll(page);
-
-        // Wait an additional 5 seconds to ensure all dynamic content is fully loaded
-        await page.waitForTimeout(5000);
 
         // Scroll back to the top of the page
         console.log('Scrolling back to the top...');
@@ -132,16 +129,17 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Navigating to the map page...');
         await page.goto(mapUrl, { waitUntil: 'networkidle2' });
 
-        // Wait for specific elements to ensure the map page is fully loaded
-        console.log('Waiting for the map to fully load...');
-        await page.waitForSelector('div.MapComponent'); // Replace with a specific selector in your map page
+        // Wait for 2 minutes to ensure the map fully loads
+        console.log('Waiting for 2 minutes to ensure the map fully loads...');
+        await page.waitForTimeout(60000); // 2 minutes (120,000 milliseconds)
 
         // Scroll down the map page to ensure all content is loaded
         console.log('Scrolling down the map page...');
         await autoScroll(page);
 
-        // Wait an additional 5 seconds to ensure all dynamic content is fully loaded
-        await page.waitForTimeout(60000);
+        // Scroll back to the top of the map page
+        console.log('Scrolling back to the top...');
+        await page.evaluate(() => window.scrollTo(0, 0));
 
         // Remove unwanted elements from the map page
         await page.evaluate(() => {
