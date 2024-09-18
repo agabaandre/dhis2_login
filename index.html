@@ -56,21 +56,118 @@
             <!-- Navbar End -->
 
             <!-- Blank Page content Start -->
-            <div class="container-fluid mb-5">
-                <a href="#" class="sidebar-toggler flex-shrink-0">
-                    <i class="fa fa-eye p-2 mb-1"></i>Show All</i>
-                </a>
-                <div class="row vh-100 bg-light mb-8">
-                    <div id="app">
-                   
-                        <div class="image-container">
-                            <!-- Show the default image initially and update it when the response is received -->
-                            <img :src="dashboardUrl" alt="Dashboard Screenshot" width="100%"
-                                style="min-height: 700px !important;">
+        <div class="container-fluid mb-5">
+            <!-- Show All Link -->
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-eye p-2 mb-1"></i>Show All</i>
+            </a>
+        
+            <!-- Tab Menu Start -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="epidemiological-tab" data-bs-toggle="tab" href="#epidemiological" role="tab"
+                        aria-controls="epidemiological" aria-selected="true">
+                        Epidemiological Summary
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="vaccination-tab" data-bs-toggle="tab" href="#vaccination" role="tab"
+                        aria-controls="vaccination" aria-selected="false">
+                        Vaccination
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="logistics-tab" data-bs-toggle="tab" href="#logistics" role="tab"
+                        aria-controls="logistics" aria-selected="false">
+                        Logistics
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="finance-tab" data-bs-toggle="tab" href="#finance" role="tab" aria-controls="finance"
+                        aria-selected="false">
+                        Finance
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="support-tab" data-bs-toggle="tab" href="#support" role="tab" aria-controls="support"
+                        aria-selected="false">
+                        Support
+                    </a>
+                </li>
+            </ul>
+        
+            <!-- Tab Content Start -->
+            <div class="tab-content" id="myTabContent">
+                <!-- Epidemiological Summary Tab -->
+                <div class="tab-pane fade show active" id="epidemiological" role="tabpanel"
+                    aria-labelledby="epidemiological-tab">
+                    <div class="row vh-100 bg-light mb-8">
+                        <div id="app">
+                            <div class="image-container">
+                                <!-- Show the default image initially and update it when the response is received -->
+                                <img :src="dashboardUrl" alt="Epidemiological Dashboard Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Vaccination Tab -->
+                <div class="tab-pane fade" id="vaccination" role="tabpanel" aria-labelledby="vaccination-tab">
+                    <div class="row vh-100 bg-light mb-8">
+                        <div id="app">
+                            <div class="image-container">
+                                <!-- Show the default image initially and update it when the response is received -->
+                                <img :src="dashboardUrl" alt="Vaccination Dashboard Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Logistics Tab -->
+                <div class="tab-pane fade" id="logistics" role="tabpanel" aria-labelledby="logistics-tab">
+                    <div class="row vh-100 bg-light mb-8">
+                        <div id="app">
+                            <div class="image-container">
+                                <!-- Show the default image initially and update it when the response is received -->
+                                <img :src="dashboardUrl" alt="Logistics Dashboard Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Finance Tab -->
+                <div class="tab-pane fade" id="finance" role="tabpanel" aria-labelledby="finance-tab">
+                    <div class="row vh-100 bg-light mb-8">
+                        <div id="app">
+                            <div class="image-container">
+                                <!-- Show the default image initially and update it when the response is received -->
+                                <img :src="dashboardUrl" alt="Finance Dashboard Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Support Tab -->
+                <div class="tab-pane fade" id="support" role="tabpanel" aria-labelledby="support-tab">
+                    <div class="row vh-100 bg-light mb-8">
+                        <div id="app">
+                            <div class="image-container">
+                                <!-- Show the default image initially and update it when the response is received -->
+                                <img :src="dashboardUrl" alt="Support Dashboard Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Tab Content End -->
+        
+        </div>
+
             <!-- Blank End -->
         </div>
         <!-- Content End -->
