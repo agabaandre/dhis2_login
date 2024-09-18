@@ -178,9 +178,8 @@
     <script src="js/tempusdominus/js/moment.min.js"></script>
     <script src="js/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="js/waypoints/waypoints.min.js"></script>
-
-    <script>
-  new Vue({
+<script>
+    new Vue({
         el: "#app",
         data: {
             loading: true,
@@ -245,15 +244,27 @@
                 return now.toLocaleString();  // Get the current date and time
             },
             clearBrowserSessions() {
-                // (same as original)
+                const cookies = document.cookie.split("; ");
+                for (let cookie of cookies) {
+                    const cookieName = cookie.split("=")[0];
+                    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
+                    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                }
+                console.log("All cookies cleared.");
+                localStorage.clear();
+                console.log("Local storage cleared.");
+                sessionStorage.clear();
+                console.log("Session storage cleared.");
             },
             getBaseUrl() {
-                // (same as original)
+                return window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
+                    ? window.location.origin + ":3000"
+                    : window.location.origin;
             }
         }
     });
+</script>
 
-    </script>
 
     <script src="js/main.js"></script>
 </body>
