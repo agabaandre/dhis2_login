@@ -23,51 +23,42 @@
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner" v-if="loading"
+        <div id="spinner"
             class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
-        <!-- Spinner End -->
+        <!-- Spinner Ends -->
 
-        <!-- Top Bar Menu Start -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light w-100"
-            style="height: 60px; background-color: #005662; color: white;">
-            <div class="container-fluid">
-                <a href="https://ems.africacdc.org/public_dashboards/" class="navbar-brand text-white">
-                    ACDC DASHBOARDS
+        <!-- Sidebar Start -->
+        <!-- <div class="sidebar open pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a href="https://ems.africacdc.org/public_dashboards/" class="navbar-brand mx-4 mt-3">
+                    <h5>ACDC DASHBOARDS</h5>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Logistics</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Finance</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Support</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Vaccination</a>
-                        </li>
-                    </ul>
+                <div class="navbar-nav w-100">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"
+                            style="border-radius:2px !important">Dashboards</a>
+                        <div class="dropdown-menu border-0">
+                            <a href="#" class="dropdown-item mx-3">MPOX</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </nav>
-        <!-- Top Bar Menu End -->
+            </nav>
+        </div> -->
+        <!-- Sidebar End -->
 
         <!-- Content Start -->
-        <div class="content open w-100" style="padding-top: 70px;">
+        <div class="content open">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
                 </a>
                 <a href="https://dashboards.africacdc.org/" class="navbar-brand mx-4">
                     <img src="img/logo.png" class="logo" alt="" style="height:80px;">
@@ -83,17 +74,25 @@
             </nav>
             <!-- Navbar End -->
 
-            <!-- Dashboard Image Start -->
-            <div class="container-fluid mb-5" id="app">
+            <!-- Blank Page content Start -->
+            <div class="container-fluid mb-5">
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-eye p-2 mb-1"></i>Show All</i>
+                </a>
                 <div class="row vh-100 bg-light mb-8">
-                    <div class="image-container" v-if="!loading">
-                        <!-- Show the dynamically loaded dashboard screenshot -->
-                        <img :src="dashboardUrl" alt="Dashboard Screenshot" width="100%"
-                            style="min-height: 700px !important;">
+                    <div id="app">
+                        <div v-if="errorMessage">
+                            <p style="color: red;">{{ errorMessage }}</p>
+                        </div>
+                        <div class="image-container" v-if="dashboardLoaded">
+                            <!-- Image replacing iframe -->
+                            <img :src="dashboardUrl" alt="Dashboard Screenshot" width="100%"
+                                style="min-height: 700px !important;">
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- Dashboard Image End -->
+            <!-- Blank End -->
         </div>
         <!-- Content End -->
 
@@ -108,31 +107,54 @@
     <script src="js/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="js/waypoints/waypoints.min.js"></script>
 
-    <!-- Vue.js App Script -->
     <script>
         new Vue({
-            el: '#app',
+            el: "#app",
             data: {
-                dashboardUrl: '', // Placeholder for the dashboard image URL
-                loading: true, // Loading state for the spinner
+                loading: true,
+                errorMessage: "",
+                dashboardUrl: "",
+                dashboardLoaded: false
             },
             mounted() {
-                // Fetch the latest dashboard image on load
-                this.loadDashboard();
+                this.autoLogin();
             },
             methods: {
-                async loadDashboard() {
+                async autoLogin() {
                     try {
-                        // Replace this URL with your API endpoint or static image URL for the dashboard
-                        const response = await axios.get('/server/dashboard_screenshot.png', {
-                            responseType: 'blob' // Expect an image file
-                        });
-                        const imageURL = URL.createObjectURL(response.data);
-                        this.dashboardUrl = imageURL;
-                        this.loading = false; // Hide the spinner once loaded
+                        // Clear browser sessions before login
+                        (function () {
+                            const cookies = document.cookie.split("; ");
+                            for (let cookie of cookies) {
+                                const cookieName = cookie.split("=")[0];
+                                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
+                                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                            }
+                            console.log("All cookies cleared.");
+                            localStorage.clear();
+                            console.log("Local storage cleared.");
+                            sessionStorage.clear();
+                            console.log("Session storage cleared.");
+                        })();
+
+                        const baseUrl = window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
+                            ? window.location.origin + ":3000"
+                            : window.location.origin;
+
+                        console.log("Final Base URL is: " + baseUrl);
+                        const response = await axios.post(baseUrl + "/node_app/login/", {}, { withCredentials: true });
+
+                        if (response.status === 200 && response.data.message === "Login successful") {
+                            this.dashboardUrl = response.data.dashboardUrl || "/server/dashboard_screenshot.png";
+                            this.dashboardLoaded = true;
+                            this.loading = false;
+                        } else {
+                            this.loading = false;
+                            this.errorMessage = "Failed to load dashboard: " + (response.data.message || "No message");
+                        }
                     } catch (error) {
-                        console.error('Error loading dashboard:', error);
                         this.loading = false;
+                        this.errorMessage = "Login failed: " + (error.response?.data?.message || "Unknown error");
                     }
                 }
             }
