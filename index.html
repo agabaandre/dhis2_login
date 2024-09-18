@@ -77,15 +77,18 @@
 
                 <!-- Tab Content Start -->
                 <div class="tab-content" id="myTabContent">
+                    <div id="app">
+                        <div class="text-end">
+                            <small>Last update on: {{ lastUpdated }}</small>
+                        </div>
+                    </div>
                     <!-- Epidemiological Summary Tab -->
                     <div class="tab-pane fade show active" id="epidemiological" role="tabpanel"
                         aria-labelledby="epidemiological-tab">
                         <div class="row vh-100 bg-light mb-8">
                             <div id="app">
                                 <!-- Add this after the tab headers but before the tab content -->
-                                <div class="text-end">
-                                    <small>Last update on: {{ lastUpdated }}</small>
-                                </div>
+                              
                                 <div class="image-container">
                                     <img :src="dashboardUrl" alt="Epidemiological Dashboard Screenshot" width="100%"
                                         style="min-height: 700px !important;">
@@ -98,9 +101,7 @@
                     <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
                         <div class="row vh-100 bg-light mb-8">
                             <div id="app">
-                                <div class="text-end">
-                                    <small>Last update on: {{ lastUpdated }}</small>
-                                </div>
+                                
                                 <div class="image-container">
                                     <img src="/server/map_screenshot.png" alt="Map Screenshot" width="100%"
                                         style="min-height: 700px !important;">
@@ -113,7 +114,7 @@
                     <div class="tab-pane fade" id="vaccination" role="tabpanel" aria-labelledby="vaccination-tab">
                         <div class="row vh-100 bg-light mb-8">
                             <div class="text-end">
-                                <small>Last update on: {{ lastUpdated }}</small>
+                               
                             </div>
                             <div id="app">
                                 <div class="image-container">
@@ -127,7 +128,7 @@
                     <!-- Logistics Tab -->
                     <div class="tab-pane fade" id="logistics" role="tabpanel" aria-labelledby="logistics-tab">
                         <div class="row vh-100 bg-light mb-8">
-                            <small>Last update on: {{ lastUpdated }}</small>
+                           
                             <div id="app">
                                 <div class="image-container">
                                     <img src="/server/comingsoon.jpg" alt="Logistics Screenshot" width="100%"
@@ -140,7 +141,7 @@
                     <!-- Finance Tab -->
                     <div class="tab-pane fade" id="finance" role="tabpanel" aria-labelledby="finance-tab">
                         <div class="row vh-100 bg-light mb-8">
-                            <small>Last update on: {{ lastUpdated }}</small>
+                           
                             <div id="app">
                                 <div class="image-container">
                                     <img src="/server/comingsoon.jpg" alt="Finance Screenshot" width="100%"
@@ -153,7 +154,7 @@
                     <!-- Support Tab -->
                     <div class="tab-pane fade" id="support" role="tabpanel" aria-labelledby="support-tab">
                         <div class="row vh-100 bg-light mb-8">
-                            <small>Last update on: {{ lastUpdated }}</small>
+                        
                             <div id="app">
                                 <div class="image-container">
                                     <img src="/server/comingsoon.jpg" alt="Support Screenshot" width="100%"
@@ -194,6 +195,7 @@
         },
         mounted() {
             this.autoLogin();
+            this.lastUpdated = this.getCurrentDateTime(); 
             setInterval(this.updateScreenshots, 120000);
         },
         methods: {
@@ -218,6 +220,8 @@
             },
             async updateScreenshots() {
                 try {
+                     // Set the last updated time just before refreshing
+                    this.lastUpdated = this.getCurrentDateTime();
                     const baseUrl = this.getBaseUrl();
                     const response = await axios.post(baseUrl + "/node_app/login/", {}, { withCredentials: true });
 
