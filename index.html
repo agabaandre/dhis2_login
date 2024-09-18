@@ -47,49 +47,53 @@
             <div class="container-fluid mb-5">
                 <h3 class="pt-2 px-2">M-POX Dashboard</h3>
 
-            <!-- Tab Menu Start -->
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <!-- Epidemiological Tab with Sub-menu Items -->
-                <li class="nav-item dropdown" role="presentation">
-                    <a class="nav-link dropdown-toggle active" id="epidemiological-tab" data-bs-toggle="dropdown" href="#"
-                        role="button" aria-expanded="false">Epidemiological</a>
-                    <ul class="dropdown-menu" aria-labelledby="epidemiological-tab">
-                        <li><a class="dropdown-item" id="epidemiological-tab" data-bs-toggle="tab" href="#epidemiological-tab" role="tab"
-                                aria-controls="epidemiological-tab" aria-selected="true">Summary</a></li>
-                        <li><a class="dropdown-item" id="map-tab" data-bs-toggle="tab" href="#map" role="tab" aria-controls="map"
-                                aria-selected="false">Maps</a></li>
-                    </ul>
-                </li>
-            
-                <!-- Vaccination Tab with Sub-menu Items -->
-                <li class="nav-item dropdown" role="presentation">
-                    <a class="nav-link dropdown-toggle" id="vaccination-tab" data-bs-toggle="dropdown" href="#" role="button"
-                        aria-expanded="false">Vaccination</a>
-                    <ul class="dropdown-menu" aria-labelledby="vaccination-tab">
-                        <li><a class="dropdown-item" id="vaccination-summary-tab" data-bs-toggle="tab" href="#vaccination-summary"
-                                role="tab" aria-controls="vaccination-summary" aria-selected="false">Summary</a></li>
-                        <li><a class="dropdown-item" id="deliveries-tab" data-bs-toggle="tab" href="#deliveries" role="tab"
-                                aria-controls="deliveries" aria-selected="false">Deliveries</a></li>
-                        <li><a class="dropdown-item" id="administration-tab" data-bs-toggle="tab" href="#administration" role="tab"
-                                aria-controls="administration" aria-selected="false">Administration</a></li>
-                    </ul>
-                </li>
-            
-                <!-- Other Tabs -->
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="logistics-tab" data-bs-toggle="tab" href="#logistics" role="tab"
-                        aria-controls="logistics" aria-selected="false">Logistics</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="finance-tab" data-bs-toggle="tab" href="#finance" role="tab" aria-controls="finance"
-                        aria-selected="false">Finance</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="support-tab" data-bs-toggle="tab" href="#support" role="tab" aria-controls="support"
-                        aria-selected="false">Support</a>
-                </li>
-            </ul>
-            <!-- Tab Menu End -->
+                <!-- Tab Menu Start -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <!-- Epidemiological Tab with Sub-menu Items -->
+                    <li class="nav-item dropdown" role="presentation">
+                        <a class="nav-link dropdown-toggle active" id="epidemiological-dropdown"
+                            data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Epidemiological</a>
+                        <ul class="dropdown-menu" aria-labelledby="epidemiological-dropdown">
+                            <li><a class="dropdown-item" id="epidemiological-summary-tab" data-bs-toggle="tab"
+                                    href="#epidemiological-summary" role="tab" aria-controls="epidemiological-summary"
+                                    aria-selected="true">Summary</a></li>
+                            <li><a class="dropdown-item" id="epidemiological-map-tab" data-bs-toggle="tab"
+                                    href="#epidemiological-map" role="tab" aria-controls="epidemiological-map"
+                                    aria-selected="false">Maps</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Vaccination Tab with Sub-menu Items -->
+                    <li class="nav-item dropdown" role="presentation">
+                        <a class="nav-link dropdown-toggle" id="vaccination-tab" data-bs-toggle="dropdown" href="#"
+                            role="button" aria-expanded="false">Vaccination</a>
+                        <ul class="dropdown-menu" aria-labelledby="vaccination-tab">
+                            <li><a class="dropdown-item" id="vaccination-summary-tab" data-bs-toggle="tab"
+                                    href="#vaccination-summary" role="tab" aria-controls="vaccination-summary"
+                                    aria-selected="false">Summary</a></li>
+                            <li><a class="dropdown-item" id="deliveries-tab" data-bs-toggle="tab" href="#deliveries"
+                                    role="tab" aria-controls="deliveries" aria-selected="false">Deliveries</a></li>
+                            <li><a class="dropdown-item" id="administration-tab" data-bs-toggle="tab"
+                                    href="#administration" role="tab" aria-controls="administration"
+                                    aria-selected="false">Administration</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Other Tabs -->
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="logistics-tab" data-bs-toggle="tab" href="#logistics" role="tab"
+                            aria-controls="logistics" aria-selected="false">Logistics</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="finance-tab" data-bs-toggle="tab" href="#finance" role="tab"
+                            aria-controls="finance" aria-selected="false">Finance</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="support-tab" data-bs-toggle="tab" href="#support" role="tab"
+                            aria-controls="support" aria-selected="false">Support</a>
+                    </li>
+                </ul>
+                <!-- Tab Menu End -->
 
                 <div id="app">
                     <!-- Add this after the tab headers but before the tab content -->
@@ -97,33 +101,25 @@
                         <small>Last update on: {{ lastUpdated }}</small>
                     </div>
 
-
-
                     <!-- Tab Content Start -->
                     <div class="tab-content" id="myTabContent">
                         <!-- Epidemiological Summary Tab -->
-                        <div class="tab-pane fade show active" id="epidemiological" role="tabpanel"
+                        <div class="tab-pane fade show active" id="epidemiological-summary-tab" role="tabpanel"
                             aria-labelledby="epidemiological-tab">
                             <div class="row vh-100 bg-light mb-8">
-
-
                                 <div class="image-container">
                                     <img :src="dashboardUrl" alt="Epidemiological Dashboard Screenshot" width="100%"
                                         style="min-height: 700px !important;">
                                 </div>
-
                             </div>
                         </div>
 
                         <!-- Full Map View Tab -->
-                        <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+                        <div class="tab-pane fade" id="epidemiological-map" role="tabpanel" aria-labelledby="map-tab">
                             <div class="row vh-100 bg-light mb-8">
-
-
                                 <div class="image-container">
                                     <img :src="mapUrl" alt="Map Screenshot" width="100%"
                                         style="min-height: 700px !important;">
-
                                 </div>
                             </div>
                         </div>
@@ -131,40 +127,29 @@
                         <!-- Vaccination Tab -->
                         <div class="tab-pane fade" id="vaccination" role="tabpanel" aria-labelledby="vaccination-tab">
                             <div class="row vh-100 bg-light mb-8">
-                                <div class="text-end">
-
-                                </div>
-
                                 <div class="image-container">
                                     <img src="/server/comingsoon.jpg" alt="Vaccination Screenshot" width="100%"
                                         style="min-height: 700px !important;">
                                 </div>
-
                             </div>
                         </div>
 
                         <!-- Logistics Tab -->
                         <div class="tab-pane fade" id="logistics" role="tabpanel" aria-labelledby="logistics-tab">
                             <div class="row vh-100 bg-light mb-8">
-
-
                                 <div class="image-container">
                                     <img src="/server/comingsoon.jpg" alt="Logistics Screenshot" width="100%"
                                         style="min-height: 700px !important;">
                                 </div>
-
                             </div>
                         </div>
 
                         <!-- Finance Tab -->
                         <div class="tab-pane fade" id="finance" role="tabpanel" aria-labelledby="finance-tab">
                             <div class="row vh-100 bg-light mb-8">
-
-
                                 <div class="image-container">
                                     <img src="/server/comingsoon.jpg" alt="Finance Screenshot" width="100%"
                                         style="min-height: 700px !important;">
-
                                 </div>
                             </div>
                         </div>
@@ -172,19 +157,15 @@
                         <!-- Support Tab -->
                         <div class="tab-pane fade" id="support" role="tabpanel" aria-labelledby="support-tab">
                             <div class="row vh-100 bg-light mb-8">
-
-
                                 <div class="image-container">
                                     <img src="/server/comingsoon.jpg" alt="Support Screenshot" width="100%"
                                         style="min-height: 700px !important;">
-
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Tab Content End -->
                 </div>
-              
             </div>
         </div>
         <!-- Content End -->
@@ -199,13 +180,16 @@
     <script src="js/tempusdominus/js/moment.min.js"></script>
     <script src="js/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="js/waypoints/waypoints.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Vue.js Application Script -->
     <script>
         new Vue({
             el: "#app",
             data: {
                 loading: true,
                 errorMessage: "",
-                lastUpdated: "",  // Add this to track last update time
+                lastUpdated: "",
                 dashboardUrl: "/server/dashboard_screenshot.png",
                 mapUrl: "/server/map_screenshot.png",
                 vaccinationUrl: "/server/vaccination_screenshot.png",
@@ -227,7 +211,7 @@
 
                         if (response.status === 200) {
                             this.updateUrls(response.data);
-                            this.lastUpdated = this.getCurrentDateTime();  // Update the last updated time
+                            this.lastUpdated = this.getCurrentDateTime();
                             this.loading = false;
                         } else {
                             this.loading = false;
@@ -240,14 +224,13 @@
                 },
                 async updateScreenshots() {
                     try {
-                        // Set the last updated time just before refreshing
                         this.lastUpdated = this.getCurrentDateTime();
                         const baseUrl = this.getBaseUrl();
                         const response = await axios.post(baseUrl + "/node_app/login/", {}, { withCredentials: true });
 
                         if (response.status === 200) {
                             this.updateUrls(response.data);
-                            this.lastUpdated = this.getCurrentDateTime();  // Update the last updated time
+                            this.lastUpdated = this.getCurrentDateTime();
                         } else {
                             console.log("Failed to refresh screenshots");
                         }
@@ -265,7 +248,7 @@
                 },
                 getCurrentDateTime() {
                     const now = new Date();
-                    return now.toLocaleString();  // Get the current date and time
+                    return now.toLocaleString();
                 },
                 clearBrowserSessions() {
                     const cookies = document.cookie.split("; ");
@@ -274,11 +257,8 @@
                         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
                         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
                     }
-                    console.log("All cookies cleared.");
                     localStorage.clear();
-                    console.log("Local storage cleared.");
                     sessionStorage.clear();
-                    console.log("Session storage cleared.");
                 },
                 getBaseUrl() {
                     return window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
@@ -288,9 +268,6 @@
             }
         });
     </script>
-
-
-    <script src="js/main.js"></script>
 </body>
 
 </html>
