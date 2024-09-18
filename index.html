@@ -21,12 +21,12 @@
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
-        <!-- <div id="spinner"
+        <div id="spinner"
             class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
-        </div> -->
+        </div>
         <!-- Spinner End -->
 
         <!-- Content Start -->
@@ -185,7 +185,6 @@
     <script src="js/waypoints/waypoints.min.js"></script>
     <script>
         $(document).ready(function () {
-       
             let dashboardUrl = "/server/dashboard_screenshot.png";
             let mapUrl = "/server/map_screenshot.png";
 
@@ -212,7 +211,6 @@
             }
 
             function updateUrls(data) {
-                $("#lastUpdated").text(getCurrentDateTime());
                 $("#dashboardImage").attr("src", data.dashboardImageUrl || dashboardUrl);
                 $("#mapImage").attr("src", data.mapImageUrl || mapUrl);
             }
@@ -225,7 +223,7 @@
 
                     if (response) {
                         updateUrls(response);
-                        $("#lastUpdated").text(getCurrentDateTime());
+                        $("#lastUpdated").text(getCurrentDateTime());  // Update with the new date from the server fetch
                         hideSpinner();  // Hide spinner after successful login
                     } else {
                         console.log("Failed to load screenshots.");
@@ -236,13 +234,16 @@
             }
 
             function updateScreenshots() {
-                $("#lastUpdated").text(getCurrentDateTime());
+                $("#lastUpdated").text(getCurrentDateTime());  // Set current time when updating screenshots
                 autoLogin();
             }
 
             function hideSpinner() {
                 $('#spinner').fadeOut(); // Fade out the spinner
             }
+
+            // Display the current date as soon as the page loads
+            $("#lastUpdated").text(getCurrentDateTime());
 
             // Initial login and screenshot load
             autoLogin();
