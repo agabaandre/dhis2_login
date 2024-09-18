@@ -16,8 +16,6 @@
     <link href="js/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -56,16 +54,14 @@
                             Epidemiological
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="epidemiological-dropdown">
+                            <!-- Summary sub-item -->
                             <li><a class="dropdown-item" id="epidemiological-summary-tab" data-bs-toggle="tab"
                                     href="#epidemiological-summary" role="tab" aria-controls="epidemiological-summary"
-                                    aria-selected="true">
-                                    Summary
-                                </a></li>
+                                    aria-selected="true">Summary</a></li>
+                            <!-- Maps sub-item -->
                             <li><a class="dropdown-item" id="epidemiological-map-tab" data-bs-toggle="tab"
                                     href="#epidemiological-map" role="tab" aria-controls="epidemiological-map"
-                                    aria-selected="false">
-                                    Maps
-                                </a></li>
+                                    aria-selected="false">Maps</a></li>
                         </ul>
                     </li>
 
@@ -81,7 +77,8 @@
                                     role="tab" aria-controls="deliveries" aria-selected="false">Deliveries</a></li>
                             <li><a class="dropdown-item" id="administration-tab" data-bs-toggle="tab"
                                     href="#administration" role="tab" aria-controls="administration"
-                                    aria-selected="false">Administration</a></li>
+                                    aria-selected="false">Administration</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -101,78 +98,77 @@
                 </ul>
                 <!-- Tab Menu End -->
 
-                <div>
-                    <div class="text-end">
-                        <small>Last update on: <span id="lastUpdated"></span></small>
-                    </div>
-
-                    <!-- Tab Content Start -->
-                    <div class="tab-content" id="myTabContent">
-                        <!-- Epidemiological Summary Tab -->
-                        <div class="tab-pane fade show active" id="epidemiological-summary" role="tabpanel"
-                            aria-labelledby="epidemiological-summary-tab">
-                            <div class="row vh-100 bg-light mb-8">
-                                <div class="image-container">
-                                    <img id="dashboardUrl" src="" alt="Epidemiological Dashboard Screenshot"
-                                        width="100%" style="min-height: 700px !important;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Full Map View Tab -->
-                        <div class="tab-pane fade" id="epidemiological-map" role="tabpanel"
-                            aria-labelledby="epidemiological-map-tab">
-                            <div class="row vh-100 bg-light mb-8">
-                                <div class="image-container">
-                                    <img id="mapUrl" src="" alt="Map Screenshot" width="100%"
-                                        style="min-height: 700px !important;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Vaccination Tab -->
-                        <div class="tab-pane fade" id="vaccination-summary" role="tabpanel"
-                            aria-labelledby="vaccination-summary-tab">
-                            <div class="row vh-100 bg-light mb-8">
-                                <div class="image-container">
-                                    <img src="/server/comingsoon.jpg" alt="Vaccination Screenshot" width="100%"
-                                        style="min-height: 700px !important;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Logistics Tab -->
-                        <div class="tab-pane fade" id="logistics" role="tabpanel" aria-labelledby="logistics-tab">
-                            <div class="row vh-100 bg-light mb-8">
-                                <div class="image-container">
-                                    <img src="/server/comingsoon.jpg" alt="Logistics Screenshot" width="100%"
-                                        style="min-height: 700px !important;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Finance Tab -->
-                        <div class="tab-pane fade" id="finance" role="tabpanel" aria-labelledby="finance-tab">
-                            <div class="row vh-100 bg-light mb-8">
-                                <div class="image-container">
-                                    <img src="/server/comingsoon.jpg" alt="Finance Screenshot" width="100%"
-                                        style="min-height: 700px !important;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Support Tab -->
-                        <div class="tab-pane fade" id="support" role="tabpanel" aria-labelledby="support-tab">
-                            <div class="row vh-100 bg-light mb-8">
-                                <div class="image-container">
-                                    <img src="/server/comingsoon.jpg" alt="Support Screenshot" width="100%"
-                                        style="min-height: 700px !important;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Tab Content End -->
+                <!-- Add this after the tab headers but before the tab content -->
+                <div class="text-end">
+                    <small>Last update on: <span id="lastUpdated"></span></small>
                 </div>
+
+                <!-- Tab Content Start -->
+                <div class="tab-content" id="myTabContent">
+                    <!-- Epidemiological Summary Tab -->
+                    <div class="tab-pane fade show active" id="epidemiological-summary" role="tabpanel"
+                        aria-labelledby="epidemiological-summary-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="image-container">
+                                <img id="dashboardImage" src="/server/dashboard_screenshot.png"
+                                    alt="Epidemiological Dashboard Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Full Map View Tab -->
+                    <div class="tab-pane fade" id="epidemiological-map" role="tabpanel"
+                        aria-labelledby="epidemiological-map-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="image-container">
+                                <img id="mapImage" src="/server/map_screenshot.png" alt="Map Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vaccination Tab -->
+                    <div class="tab-pane fade" id="vaccination" role="tabpanel" aria-labelledby="vaccination-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="image-container">
+                                <img src="/server/comingsoon.jpg" alt="Vaccination Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logistics Tab -->
+                    <div class="tab-pane fade" id="logistics" role="tabpanel" aria-labelledby="logistics-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="image-container">
+                                <img src="/server/comingsoon.jpg" alt="Logistics Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Finance Tab -->
+                    <div class="tab-pane fade" id="finance" role="tabpanel" aria-labelledby="finance-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="image-container">
+                                <img src="/server/comingsoon.jpg" alt="Finance Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Tab -->
+                    <div class="tab-pane fade" id="support" role="tabpanel" aria-labelledby="support-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="image-container">
+                                <img src="/server/comingsoon.jpg" alt="Support Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tab Content End -->
             </div>
         </div>
         <!-- Content End -->
@@ -182,60 +178,70 @@
     </div>
 
     <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/tempusdominus/js/moment.min.js"></script>
     <script src="js/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="js/waypoints/waypoints.min.js"></script>
-
     <script>
         $(document).ready(function () {
-            // Hide the spinner initially
-            hideLoader();
+            let dashboardUrl = "/server/dashboard_screenshot.png";
+            let mapUrl = "/server/map_screenshot.png";
 
-            // Automatically run when the page is loaded
-            loadDashboard();
-
-            function loadDashboard() {
-                // Show the loader while loading data
-                showLoader();
-
-                // Perform Axios request
-                axios.post('/node_app/login/', {}, { withCredentials: true })
-                    .then(function (response) {
-                        if (response.status === 200) {
-                            updateImages(response.data);
-                            updateLastUpdated();
-                        } else {
-                            console.error("Failed to load dashboard data: ", response.data.message || "No message");
-                        }
-                        hideLoader(); // Hide the loader after success
-                    })
-                    .catch(function (error) {
-                        console.error("Error loading dashboard data: ", error);
-                        hideLoader(); // Ensure the loader is hidden in case of failure
-                    });
-            }
-
-            function updateImages(data) {
-                $('#dashboardUrl').attr('src', data.dashboardImageUrl || '/server/dashboard_screenshot.png');
-                $('#mapUrl').attr('src', data.mapImageUrl || '/server/map_screenshot.png');
-            }
-
-            function updateLastUpdated() {
+            function getCurrentDateTime() {
                 const now = new Date();
-                $('#lastUpdated').text(now.toLocaleString());
+                return now.toLocaleString();
             }
 
-            function hideLoader() {
-                $('#spinner').hide();  // Hide the spinner
+            function clearBrowserSessions() {
+                const cookies = document.cookie.split("; ");
+                for (let cookie of cookies) {
+                    const cookieName = cookie.split("=")[0];
+                    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                }
+                console.log("All cookies cleared.");
+                localStorage.clear();
+                sessionStorage.clear();
             }
 
-            function showLoader() {
-                $('#spinner').show();  // Show the spinner
+            function getBaseUrl() {
+                return window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
+                    ? window.location.origin + ":3000"
+                    : window.location.origin;
             }
 
-            // Set interval for periodic updates (every 2 minutes)
-            setInterval(loadDashboard, 120000);
+            function updateUrls(data) {
+                $("#dashboardImage").attr("src", data.dashboardImageUrl || dashboardUrl);
+                $("#mapImage").attr("src", data.mapImageUrl || mapUrl);
+            }
+
+            async function autoLogin() {
+                try {
+                    clearBrowserSessions();
+                    const baseUrl = getBaseUrl();
+                    const response = await $.post(baseUrl + "/node_app/login/", {}, null);
+
+                    if (response) {
+                        updateUrls(response);
+                        $("#lastUpdated").text(getCurrentDateTime());
+                    } else {
+                        console.log("Failed to load screenshots.");
+                    }
+                } catch (error) {
+                    console.error("Login failed:", error);
+                }
+            }
+
+            function updateScreenshots() {
+                $("#lastUpdated").text(getCurrentDateTime());
+                autoLogin();
+            }
+
+            // Initial login and screenshot load
+            autoLogin();
+
+            // Periodic screenshot update every 2 minutes (120000 ms)
+            setInterval(updateScreenshots, 120000);
         });
     </script>
 </body>
