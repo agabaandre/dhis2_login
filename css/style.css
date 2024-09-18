@@ -27,6 +27,21 @@
     visibility: visible;
     opacity: 1;
 }
+ .nav-tabs {
+        display: flex;
+        justify-content: space-between;
+    }
+    .nav-tabs .nav-item {
+        flex-grow: 1;
+        text-align: center;
+    }
+    .nav-tabs .dropdown-menu {
+        width: 100%;
+        text-align: center;
+    }
+    .nav-tabs .dropdown-item {
+        text-align: center;
+    }
 
 
 /*** Button ***/
@@ -80,10 +95,10 @@
 }
 
 .content {
-    margin-left: 250px;
     min-height: 100vh;
     background: #FFFFFF;
     transition: 0.5s;
+    width: 100%;
 }
 
 @media (min-width: 992px) {
@@ -95,9 +110,7 @@
         margin-left: -250px;
     }
 
-    .content {
-        width: calc(100% - 250px);
-    }
+ 
 
     .content.open {
         width: 100%;
@@ -106,10 +119,7 @@
 }
 
 @media (max-width: 991.98px) {
-    .sidebar {
-        margin-left: -250px;
-    }
-
+  
     .sidebar.open {
         margin-left: 0;
     }

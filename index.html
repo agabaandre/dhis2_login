@@ -32,7 +32,7 @@
         <!-- Spinner End -->
 
         <!-- Content Start -->
-        <div class="content open">
+        <div class="content">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
                 <a href="#" class="sidebar-toggler flex-shrink-0">
@@ -45,35 +45,51 @@
             <!-- Navbar End -->
 
             <div class="container-fluid mb-5">
-                <h3>M-POX Dashboard</h3>
+                <h3 class="pt-2 px-2">M-POX Dashboard</h3>
 
-                <!-- Tab Menu Start -->
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="epidemiological-tab" data-bs-toggle="tab" href="#epidemiological"
-                            role="tab" aria-controls="epidemiological" aria-selected="true">Epidemiological Summary</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="map-tab" data-bs-toggle="tab" href="#map" role="tab" aria-controls="map"
-                            aria-selected="false">Full Map View</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="vaccination-tab" data-bs-toggle="tab" href="#vaccination" role="tab"
-                            aria-controls="vaccination" aria-selected="false">Vaccination</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="logistics-tab" data-bs-toggle="tab" href="#logistics" role="tab"
-                            aria-controls="logistics" aria-selected="false">Logistics</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="finance-tab" data-bs-toggle="tab" href="#finance" role="tab"
-                            aria-controls="finance" aria-selected="false">Finance</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="support-tab" data-bs-toggle="tab" href="#support" role="tab"
-                            aria-controls="support" aria-selected="false">Support</a>
-                    </li>
-                </ul>
+            <!-- Tab Menu Start -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <!-- Epidemiological Tab with Sub-menu Items -->
+                <li class="nav-item dropdown" role="presentation">
+                    <a class="nav-link dropdown-toggle active" id="epidemiological-tab" data-bs-toggle="dropdown" href="#"
+                        role="button" aria-expanded="false">Epidemiological</a>
+                    <ul class="dropdown-menu" aria-labelledby="epidemiological-tab">
+                        <li><a class="dropdown-item" id="epidemiological-tab" data-bs-toggle="tab" href="#epidemiological-tab" role="tab"
+                                aria-controls="epidemiological-tab" aria-selected="true">Summary</a></li>
+                        <li><a class="dropdown-item" id="map-tab" data-bs-toggle="tab" href="#map" role="tab" aria-controls="map"
+                                aria-selected="false">Maps</a></li>
+                    </ul>
+                </li>
+            
+                <!-- Vaccination Tab with Sub-menu Items -->
+                <li class="nav-item dropdown" role="presentation">
+                    <a class="nav-link dropdown-toggle" id="vaccination-tab" data-bs-toggle="dropdown" href="#" role="button"
+                        aria-expanded="false">Vaccination</a>
+                    <ul class="dropdown-menu" aria-labelledby="vaccination-tab">
+                        <li><a class="dropdown-item" id="vaccination-summary-tab" data-bs-toggle="tab" href="#vaccination-summary"
+                                role="tab" aria-controls="vaccination-summary" aria-selected="false">Summary</a></li>
+                        <li><a class="dropdown-item" id="deliveries-tab" data-bs-toggle="tab" href="#deliveries" role="tab"
+                                aria-controls="deliveries" aria-selected="false">Deliveries</a></li>
+                        <li><a class="dropdown-item" id="administration-tab" data-bs-toggle="tab" href="#administration" role="tab"
+                                aria-controls="administration" aria-selected="false">Administration</a></li>
+                    </ul>
+                </li>
+            
+                <!-- Other Tabs -->
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="logistics-tab" data-bs-toggle="tab" href="#logistics" role="tab"
+                        aria-controls="logistics" aria-selected="false">Logistics</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="finance-tab" data-bs-toggle="tab" href="#finance" role="tab" aria-controls="finance"
+                        aria-selected="false">Finance</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="support-tab" data-bs-toggle="tab" href="#support" role="tab" aria-controls="support"
+                        aria-selected="false">Support</a>
+                </li>
+            </ul>
+            <!-- Tab Menu End -->
 
                 <div id="app">
                     <!-- Add this after the tab headers but before the tab content -->
