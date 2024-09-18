@@ -116,7 +116,7 @@ app.post('/node_app/login', async (req, res) => {
 
         // Set viewport height based on the page content's height
         const bodyHeight = await page.evaluate(() => document.body.scrollHeight);
-        await page.setViewport({ width: 1920, height: bodyHeight+300 });
+        await page.setViewport({ width: 1920, height: bodyHeight+80 });
         console.log(`Viewport height adjusted to: ${bodyHeight}px`);
 
         // Take dashboard screenshot
