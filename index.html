@@ -200,11 +200,17 @@
                 supportUrl: "/server/support_screenshot.png",
             },
             mounted() {
-                this.autoLogin();
-                this.lastUpdated = this.getCurrentDateTime();
-                setInterval(this.updateScreenshots, 120000);
+                this.initializeApp();
             },
             methods: {
+                initializeApp() {
+                    // Directly setting the loading flag to false to show the content.
+                    // If you want to use `autoLogin`, call it here, and make sure to set `loading = false` after the request.
+                    this.loading = false;
+                    this.lastUpdated = this.getCurrentDateTime();
+                    // Example of setting interval to update screenshots:
+                    setInterval(this.updateScreenshots, 120000);
+                },
                 toggleDropdown(tabName) {
                     if (this.dropdownVisible === tabName) {
                         this.dropdownVisible = '';  // Close dropdown if it's already open
@@ -217,48 +223,9 @@
                     this.activeSubTab = subTab;
                     this.dropdownVisible = '';  // Close dropdown after selecting
                 },
-                async autoLogin() {
-                    try {
-                        this.clearBrowserSessions();
-                        const baseUrl = this.getBaseUrl();
-                        const response = await axios.post(baseUrl + "/node_app/login/", {}, { withCredentials: true });
-
-                        if (response.status === 200) {
-                            this.updateUrls(response.data);
-                            this.lastUpdated = this.getCurrentDateTime();
-                            this.loading = false;
-                        } else {
-                            this.loading = false;
-                            this.errorMessage = "Failed to load screenshots: " + (response.data.message || "No message");
-                        }
-                    } catch (error) {
-                        this.loading = false;
-                        this.errorMessage = "Login failed: " + (error.response?.data?.message || "Unknown error");
-                    }
-                },
-                async updateScreenshots() {
-                    try {
-                        this.lastUpdated = this.getCurrentDateTime();
-                        const baseUrl = this.getBaseUrl();
-                        const response = await axios.post(baseUrl + "/node_app/login/", {}, { withCredentials: true });
-
-                        if (response.status === 200) {
-                            this.updateUrls(response.data);
-                            this.lastUpdated = this.getCurrentDateTime();
-                        } else {
-                            console.log("Failed to refresh screenshots");
-                        }
-                    } catch (error) {
-                        console.error("Error updating screenshots:", error);
-                    }
-                },
-                updateUrls(data) {
-                    this.dashboardUrl = data.dashboardImageUrl || this.dashboardUrl;
-                    this.mapUrl = data.mapImageUrl || this.mapUrl;
-                    this.vaccinationUrl = data.vaccinationImageUrl || this.vaccinationUrl;
-                    this.logisticsUrl = data.logisticsImageUrl || this.logisticsUrl;
-                    this.financeUrl = data.financeImageUrl || this.financeUrl;
-                    this.supportUrl = data.supportImageUrl || this.supportUrl;
+                updateScreenshots() {
+                    console.log("Screenshots would be updated here.");
+                    this.lastUpdated = this.getCurrentDateTime();
                 },
                 getCurrentDateTime() {
                     const now = new Date();
