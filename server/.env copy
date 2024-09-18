@@ -1,5 +1,9 @@
 DHIS2_USERNAME=Dashboard_Access1
 DHIS2_PASSWORD='Charts@ACDC567#$'
-DHIS2_LOGIN_URL=https://ems.africacdc.org/
-BASE_URL=ems.africacdc.org/
-DHIS2_DASHBOARD_URL='https://ems.africacdc.org/dhis-web-dashboard/#/CeNwGWWgSCx'
+DHIS2_LOGIN_URL=https://ems.africacdc.org/dhis-web-commons/security/login.action
+BASE_URL=https://dashboards.africacdc.org
+EMS_URL=https://ems.africacdc.org
+DHIS2_DASHBOARD_URL=https://ems.africacdc.org/dhis-web-dashboard/
+DHIS2_TOKEN=d2pat_CuP9gSlk8F0mNcHGE3QgQYSnDzGeqhj73865920416
+DEFAULT_DASHBOARD='#/CeNwGWWgSCx'
+SITE_URL=dashboards.africacdc.org
