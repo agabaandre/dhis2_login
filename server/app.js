@@ -29,7 +29,7 @@ app.post('/node_app/login', async (req, res) => {
         console.log('Browser launched.');
 
         // Set viewport width to desktop size, but the height will be dynamically set later
-        await page.setViewport({ width: 1920, height: 2300 });
+        await page.setViewport({ width: 1920, height: bodyHeight + 300 });
         console.log('Set viewport to desktop width.');
 
         // Go to the base URL to check for existing cookies
@@ -116,7 +116,7 @@ app.post('/node_app/login', async (req, res) => {
 
         // Set viewport height based on the page content's height
         const bodyHeight = await page.evaluate(() => document.body.scrollHeight);
-        await page.setViewport({ width: 1920, height: bodyHeight });
+        await page.setViewport({ width: 1920, height: bodyHeight+300 });
         console.log(`Viewport height adjusted to: ${bodyHeight}px`);
 
         // Take dashboard screenshot
