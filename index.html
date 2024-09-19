@@ -255,39 +255,7 @@
             setInterval(updateScreenshots, 120000);
         });
     </script>
-<script>
-    function clearBrowserCache() {
-        // Clear cookies
-        const cookies = document.cookie.split("; ");
-        for (let cookie of cookies) {
-            const cookieName = cookie.split("=")[0];
-            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-        }
-
-        // Clear localStorage and sessionStorage
-        localStorage.clear();
-        sessionStorage.clear();
-
-        console.log("Browser cache cleared (cookies, localStorage, and sessionStorage).");
-    }
-
-    function forceReloadWithoutCache() {
-        // Check if the URL already has the cache-buster query
-        const urlParams = new URLSearchParams(window.location.search);
-        if (!urlParams.has('cache_buster')) {
-            // Force reload the page by appending a random query string to bypass cache
-            const randomQuery = `?cache_buster=${new Date().getTime()}`;
-            window.location.href = window.location.pathname + randomQuery;
-        }
-    }
-
-    // Automatically clear cache and optionally force reload on page load
-    window.onload = function () {
-        clearBrowserCache();
-        // Optionally force reload the page without cache (only once)
-        forceReloadWithoutCache();
-    };
-</script>
+    
 </body>
 
 </html>
