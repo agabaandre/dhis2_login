@@ -167,7 +167,7 @@ async function takeScreenshots() {
         console.error('Error occurred:', error);
     }
 }
-
+takeScreenshots();
 // Schedule the task to run every 30 minutes (1800000 milliseconds)
 setInterval(takeScreenshots, 1800000); // 30 minutes
 
