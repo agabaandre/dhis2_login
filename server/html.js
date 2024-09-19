@@ -13,10 +13,24 @@ app.use(cors({ origin: process.env.DHIS2_LOGIN_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 
+// Function to ensure directory exists
+function ensureDirectoryExistence(dirPath) {
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+        console.log(`Directory created: ${dirPath}`);
+    }
+}
+
 // Function to download CSS and JS files
 async function downloadFile(url, savePath) {
     try {
         const response = await axios.get(url);
+
+        // Ensure the directory exists before writing the file
+        const dir = path.dirname(savePath);
+        ensureDirectoryExistence(dir);
+
+        // Write the file
         fs.writeFileSync(savePath, response.data);
         console.log(`File downloaded to ${savePath}`);
     } catch (error) {
@@ -63,7 +77,7 @@ async function scrapePages() {
         console.log('Navigating to dashboard...');
         await page.goto(dashUrl, { waitUntil: 'networkidle2' });
 
-        // Wait for dynamic content to fully load (3 minutes)
+        // Wait for dynamic content to fully load
         await page.waitForTimeout(180000); // 3 minutes
 
         // Remove unwanted elements (header, navigation bar, etc.)
@@ -148,9 +162,9 @@ async function scrapePages() {
         console.error('Error occurred during scraping:', error);
     }
 }
-scrapePages();
+
 // Schedule the scraping task to run every 30 minutes
-setInterval(scrapePages, 1800000); // 30 minutes (1800000 milliseconds)
+setInterval(scrapePages, 12000); // 12 seconds for testing (change to 1800000 for 30 minutes)
 
 // Start the server
 app.listen(3000, () => {
