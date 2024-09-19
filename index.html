@@ -20,15 +20,6 @@
 
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
-        <!-- Spinner Start -->
-        <!-- <div id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div> -->
-        <!-- Spinner End -->
-
         <!-- Content Start -->
         <div class="content">
             <!-- Navbar Start -->
@@ -193,69 +184,24 @@
                 return now.toLocaleString();
             }
 
-            function clearBrowserSessions() {
-                const cookies = document.cookie.split("; ");
-                for (let cookie of cookies) {
-                    const cookieName = cookie.split("=")[0];
-                    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-                }
-                console.log("All cookies cleared.");
-                localStorage.clear();
-                sessionStorage.clear();
-            }
-
-            function getBaseUrl() {
-                return window.location.origin.includes("localhost") || window.location.origin.includes("127.0.0.1")
-                    ? window.location.origin + ":3000"
-                    : window.location.origin;
-            }
-
-            function updateUrls(data) {
-                $("#dashboardImage").attr("src", data.dashboardImageUrl || dashboardUrl);
-                $("#mapImage").attr("src", data.mapImageUrl || mapUrl);
-                 hideSpinner();
-            }
-
-            async function autoLogin() {
-                try {
-                    clearBrowserSessions();
-                    const baseUrl = getBaseUrl();
-                    const response = await $.post(baseUrl + "/node_app/login/", {}, null);
-
-                    if (response) {
-                        updateUrls(response);
-                        $("#lastUpdated").text(getCurrentDateTime());  // Update with the new date from the server fetch
-                         // Hide spinner after successful login
-                    } else {
-                        console.log("Failed to load screenshots.");
-                        ;  // Hide spinner even if there's a failure
-                    }
-                } catch (error) {
-                    console.error("Login failed:", error);
-                   // Ensure spinner hides in case of an error
-                }
-            }
-
             function updateScreenshots() {
-                $("#lastUpdated").text(getCurrentDateTime());  // Set current time when updating screenshots
-                autoLogin();
-            }
-
-            function hideSpinner() {
-                $('#spinner').fadeOut(); // Fade out the spinner
+                // Update the images on the page directly from the server
+                $('#dashboardImage').attr('src', dashboardUrl + `?t=${new Date().getTime()}`);  // Bypass cache
+                $('#mapImage').attr('src', mapUrl + `?t=${new Date().getTime()}`);  // Bypass cache
+                $("#lastUpdated").text(getCurrentDateTime());  // Update the last updated timestamp
             }
 
             // Display the current date as soon as the page loads
             $("#lastUpdated").text(getCurrentDateTime());
 
-            // Initial login and screenshot load
-            autoLogin();
+            // Initial screenshot load
+            updateScreenshots();
 
             // Periodic screenshot update every 2 minutes (120000 ms)
             setInterval(updateScreenshots, 120000);
         });
     </script>
-    
+
 </body>
 
 </html>
