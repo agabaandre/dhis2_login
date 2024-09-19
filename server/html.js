@@ -162,9 +162,9 @@ async function scrapePages() {
         console.error('Error occurred during scraping:', error);
     }
 }
-
+scrapePages();
 // Schedule the scraping task to run every 30 minutes
-setInterval(scrapePages, 12000); // 12 seconds for testing (change to 1800000 for 30 minutes)
+setInterval(scrapePages, 1800000); // 12 seconds for testing (change to 1800000 for 30 minutes)
 
 // Start the server
 app.listen(3000, () => {
