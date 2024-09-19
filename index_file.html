@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Africa CDC Open Dashboards</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link href="img/favicon.png" rel="icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="js/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid position-relative bg-white d-flex p-0">
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <a href="https://dashboards.africacdc.org/" class="navbar-brand mx-4">
+                    <img src="img/logo.png" class="logo" alt="" style="height:80px;">
+                </a>
+            </nav>
+            <!-- Navbar End -->
+
+            <div class="container-fluid mb-5">
+                <h3 class="pt-2 px-2">M-POX Dashboard</h3>
+
+                <!-- Tab Menu Start -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <!-- Epidemiological Tab with Sub-menu Items -->
+                    <li class="nav-item dropdown" role="presentation">
+                        <a class="nav-link dropdown-toggle active" id="epidemiological-dropdown"
+                            data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            Epidemiological
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="epidemiological-dropdown">
+                            <!-- Summary sub-item -->
+                            <li><a class="dropdown-item" id="epidemiological-summary-tab" data-bs-toggle="tab"
+                                    href="#epidemiological-summary" role="tab" aria-controls="epidemiological-summary"
+                                    aria-selected="true">Summary</a></li>
+                            <!-- Maps sub-item -->
+                            <li><a class="dropdown-item" id="epidemiological-map-tab" data-bs-toggle="tab"
+                                    href="#epidemiological-map" role="tab" aria-controls="epidemiological-map"
+                                    aria-selected="false">Maps</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Vaccination Tab with Sub-menu Items -->
+                    <li class="nav-item dropdown" role="presentation">
+                        <a class="nav-link dropdown-toggle" id="vaccination-tab" data-bs-toggle="dropdown" href="#"
+                            role="button" aria-expanded="false">Vaccination</a>
+                        <ul class="dropdown-menu" aria-labelledby="vaccination-tab">
+                            <li><a class="dropdown-item" id="vaccination-summary-tab" data-bs-toggle="tab"
+                                    href="#vaccination-summary" role="tab" aria-controls="vaccination-summary"
+                                    aria-selected="false">Summary</a></li>
+                            <li><a class="dropdown-item" id="deliveries-tab" data-bs-toggle="tab" href="#deliveries"
+                                    role="tab" aria-controls="deliveries" aria-selected="false">Deliveries</a></li>
+                            <li><a class="dropdown-item" id="administration-tab" data-bs-toggle="tab"
+                                    href="#administration" role="tab" aria-controls="administration"
+                                    aria-selected="false">Administration</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Other Tabs -->
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="logistics-tab" data-bs-toggle="tab" href="#logistics" role="tab"
+                            aria-controls="logistics" aria-selected="false">Logistics</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="finance-tab" data-bs-toggle="tab" href="#finance" role="tab"
+                            aria-controls="finance" aria-selected="false">Finance</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="support-tab" data-bs-toggle="tab" href="#support" role="tab"
+                            aria-controls="support" aria-selected="false">Support</a>
+                    </li>
+                </ul>
+                <!-- Tab Menu End -->
+
+                <!-- Add this after the tab headers but before the tab content -->
+                <div class="text-end">
+                    <small>Last update on: <span id="lastUpdated"></span></small>
+                </div>
+
+                <!-- Tab Content Start -->
+                <div class="tab-content" id="myTabContent">
+                    <!-- Epidemiological Summary Tab -->
+                    <div class="tab-pane fade show active" id="epidemiological-summary" role="tabpanel"
+                        aria-labelledby="epidemiological-summary-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="iframe-container">
+                                <iframe id="dashboardIframe" src="/server/dashboard.html" width="100%" height="100%"
+                                    style="min-height: 700px !important;" frameborder="0"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Full Map View Tab -->
+                    <div class="tab-pane fade" id="epidemiological-map" role="tabpanel"
+                        aria-labelledby="epidemiological-map-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="iframe-container">
+                                <iframe id="mapIframe" src="/server/map.html" width="100%" height="100%"
+                                    style="min-height: 700px !important;" frameborder="0"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vaccination Tab -->
+                    <div class="tab-pane fade" id="vaccination" role="tabpanel" aria-labelledby="vaccination-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="image-container">
+                                <img src="/server/comingsoon.jpg" alt="Vaccination Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logistics Tab -->
+                    <div class="tab-pane fade" id="logistics" role="tabpanel" aria-labelledby="logistics-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="image-container">
+                                <img src="/server/comingsoon.jpg" alt="Logistics Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Finance Tab -->
+                    <div class="tab-pane fade" id="finance" role="tabpanel" aria-labelledby="finance-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="image-container">
+                                <img src="/server/comingsoon.jpg" alt="Finance Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Tab -->
+                    <div class="tab-pane fade" id="support" role="tabpanel" aria-labelledby="support-tab">
+                        <div class="row vh-100 bg-light mb-8">
+                            <div class="image-container">
+                                <img src="/server/comingsoon.jpg" alt="Support Screenshot" width="100%"
+                                    style="min-height: 700px !important;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tab Content End -->
+            </div>
+        </div>
+        <!-- Content End -->
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/tempusdominus/js/moment.min.js"></script>
+    <script src="js/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="js/waypoints/waypoints.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function getCurrentDateTime() {
+                const now = new Date();
+                return now.toLocaleString();
+            }
+
+            function updateIframes() {
+                // Reload the iframes directly from the server
+                $('#dashboardIframe').attr('src', '/server/dashboard.html' + `?t=${new Date().getTime()}`);  // Bypass cache
+                $('#mapIframe').attr('src', '/server/map.html' + `?t=${new Date().getTime()}`);  // Bypass cache
+                $("#lastUpdated").text(getCurrentDateTime());  // Update the last updated timestamp
+            }
+
+            // Display the current date as soon as the page loads
+            $("#lastUpdated").text(getCurrentDateTime());
+
+            // Initial iframe load
+            updateIframes();
+
+            // Periodic iframe update every 2 minutes (120000 ms)
+            setInterval(updateIframes, 120000);
+        });
+    </script>
+
+</body>
+
+</html>
