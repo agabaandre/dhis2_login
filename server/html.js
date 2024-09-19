@@ -150,8 +150,8 @@ async function scrapePages() {
 }
 
 // Schedule the scraping task to run every 30 minutes
-// setInterval(scrapePages, 1800000); // 30 minutes (1800000 milliseconds)
-
+//setInterval(scrapePages, 12000); // 30 minutes (1800000 milliseconds)
+scrapePages;
 // Start the server
 app.listen(3000, () => {
     console.log('Server running on port 3000');
