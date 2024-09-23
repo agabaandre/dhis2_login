@@ -204,6 +204,27 @@
             setInterval(updateScreenshots, 120000);
         });
     </script>
+<script>
+    function changeIframeStyle() {
+        // Get the iframe element
+        let iframe = document.getElementById('myIframe');
+        let iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+        // Dynamically inject CSS to change styles inside the iframe
+        let style = iframeDocument.createElement('style');
+        style.innerHTML = `
+                .css-g9vl5z-euiButtonDisplay-s-defaultMinWidth-fill-primary {
+                    color: rgb(255, 255, 255);
+                    background-color: rgb(52, 143, 65);
+                }
+                .css-1pdw0n3-euiButtonIcon-s-empty-primary {
+                      color: rgb(255, 255, 255);
+                    background-color: rgb(52, 143, 65);
+                }
+            `;
+        iframeDocument.head.appendChild(style);
+    }
+</script>
 
 </body>
 
