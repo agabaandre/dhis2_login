@@ -213,6 +213,26 @@
     }
 </script>
 <script>
+    window.onload = function () {
+        var iframe = document.querySelector('iframe'); // Select your iframe
+        iframe.onload = function () {
+            var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            var style = iframeDocument.createElement('style');
+            style.innerHTML = `
+        .legacyMtrVis__container {
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            text-align: center;
+            color: #fff !important;
+        }
+      `;
+            iframeDocument.head.appendChild(style); // Append the CSS to the iframe's <head>
+        };
+    };
+</script>
+
+<script>
     $(document).ready(function () {
         $('.fullscreen-icon').on('click', function () {
             let container = $(this).closest('.container-fluid');
