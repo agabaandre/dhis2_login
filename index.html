@@ -19,13 +19,17 @@
     <link href="css/style.css" rel="stylesheet">
     <style>
         .legacyMtrVis__container {
-            display: flex;
-            flex-direction: column;
-            padding: 16px;
-            text-align: center;
+       
             color: #fff !important;
         }
+        .linksComponent .horizontalLayoutWrapper .linksPanelLink.linkCurrent .euiListGroupItem__text {
+            box-shadow: inset 0 -2px #07c;
+            padding-inline: 0;
+            border: 1px solid #252323;
+            border-radius: 4px;
+        }
     </style>
+  
 
 </head>
 
@@ -224,23 +228,26 @@
 </script>
 <script>
     window.onload = function () {
-        var iframe = document.querySelector('iframe'); // Select your iframe
+        var iframe = document.querySelector('iframe'); // Select the iframe
         iframe.onload = function () {
             var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
             var style = iframeDocument.createElement('style');
             style.innerHTML = `
         .legacyMtrVis__container {
-            display: flex;
-            flex-direction: column;
-            padding: 16px;
-            text-align: center;
             color: #fff !important;
+        }
+        .linksComponent .horizontalLayoutWrapper .linksPanelLink.linkCurrent .euiListGroupItem__text {
+            box-shadow: inset 0 -2px #07c;
+            padding-inline: 0;
+            border: 1px solid #252323;
+            border-radius: 4px;
         }
       `;
             iframeDocument.head.appendChild(style); // Append the CSS to the iframe's <head>
         };
     };
 </script>
+
 
 <script>
     $(document).ready(function () {
