@@ -227,27 +227,7 @@ content="Stay updated with Africa CDC's MPOX Outbreak 2024 Dashboard. Get the la
         });
     </script>
 
-<script>
-    window.onload = function () {
-        var iframe = document.querySelector('iframe'); // Select the iframe
-        iframe.onload = function () {
-            var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            var style = iframeDocument.createElement('style');
-            style.innerHTML = `
-        .legacyMtrVis__container {
-            color: #fff !important;
-        }
-        .linksComponent .horizontalLayoutWrapper .linksPanelLink.linkCurrent .euiListGroupItem__text {
-            box-shadow: inset 0 -2px #07c;
-            padding-inline: 0;
-            border: 1px solid #252323;
-            border-radius: 4px;
-        }
-      `;
-            iframeDocument.head.appendChild(style); // Append the CSS to the iframe's <head>
-        };
-    };
-</script>
+
 
 
 <script>
